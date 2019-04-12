@@ -55,6 +55,7 @@ public abstract class AbstractEmailService implements IEmailService {
 
     /**
      * 获得创建一封邮件的实例对象
+     *
      * @param session
      * @return
      * @throws Exception
@@ -80,6 +81,7 @@ public abstract class AbstractEmailService implements IEmailService {
 
     /**
      * 纯文本或带有附件的特殊处理逻辑方法
+     *
      * @param msg
      * @param content
      * @param filePath
@@ -104,7 +106,7 @@ public abstract class AbstractEmailService implements IEmailService {
         //设置调试信息在控制台打印出来
         session.setDebug(true);
         //3、创建邮件的实例对象
-        Message msg = this.getMimeMessage(session,senderAddress, toEmail, subject, content, filePath);
+        Message msg = this.getMimeMessage(session, senderAddress, toEmail, subject, content, filePath);
         //4、根据session对象获取邮件传输对象Transport
         Transport transport = session.getTransport();
         //设置发件人的账户名和密码
