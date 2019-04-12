@@ -1,5 +1,6 @@
 package com.project.base.util;
 
+import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -81,7 +82,7 @@ public class Base64Utils {
      * @return
      */
     public static String encode(String string) {
-        return org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(string.getBytes(Charset.defaultCharset()));
+        return Base64.encodeBase64URLSafeString(string.getBytes(Charset.defaultCharset()));
     }
 
     /**
@@ -90,7 +91,6 @@ public class Base64Utils {
      * @return
      */
     public static String decode(String string) {
-        byte [] bytes = org.apache.commons.codec.binary.Base64.decodeBase64(string);
-        return new String(bytes, Charset.defaultCharset());
+        return new String(Base64.decodeBase64(string), Charset.defaultCharset());
     }
 }
