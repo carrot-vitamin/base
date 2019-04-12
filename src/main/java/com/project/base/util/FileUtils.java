@@ -1,7 +1,8 @@
 package com.project.base.util;
 
 import com.alibaba.fastjson.util.IOUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
@@ -14,8 +15,9 @@ import java.util.Properties;
  * @author: ex-yinshaobo001
  * @date: 2018/12/28 10:06 AM
  */
-@Slf4j
 public class FileUtils {
+
+    private static Logger log = LoggerFactory.getLogger(FileUtils.class);
 
     private static ClassLoader classLoader = FileUtils.class.getClassLoader();
 

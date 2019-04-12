@@ -1,8 +1,9 @@
 package com.project.base.service.impl;
 
 import com.project.base.service.IEmailService;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -19,8 +20,9 @@ import java.util.Properties;
  * @author: yinshaobo
  * @date: 2019/4/12 13:35
  */
-@Slf4j
 public abstract class AbstractEmailService implements IEmailService {
+
+    private static Logger log = LoggerFactory.getLogger(AbstractEmailService.class);
 
     /**
      * 默认收件人地址

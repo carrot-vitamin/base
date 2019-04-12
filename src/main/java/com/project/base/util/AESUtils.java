@@ -1,6 +1,7 @@
 package com.project.base.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -15,8 +16,9 @@ import java.security.SecureRandom;
  * @desc AESUtils
  * @date 2018/9/29 23:52
  */
-@Slf4j
 public class AESUtils {
+
+    private static Logger log = LoggerFactory.getLogger(AESUtils.class);
 
     /**
      * 加密
