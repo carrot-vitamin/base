@@ -29,23 +29,32 @@ public class RedisServiceImpl implements IRedisService {
     }
 
     @Override
-    public void set(String key, String value) {
-        this.jedis.set(key, value);
+    public String set(String key, String value) {
+        return this.jedis.set(key, value);
     }
 
     @Override
-    public void set(String key, String value, long seconds) {
+    public String set(String key, String value, long seconds) {
+        String result;
         // NX是不存在时才set， XX是存在时才set， EX是秒，PX是毫秒
         if (jedis.exists(key)) {
-            jedis.set(key, value, "XX", "EX", seconds);
+            result = jedis.set(key, value, "XX", "EX", seconds);
         } else {
-            jedis.set(key, value, "NX", "EX", seconds);
+            result = jedis.set(key, value, "NX", "EX", seconds);
         }
-        jedis.close();
+        return result;
     }
 
     @Override
     public String get(String key) {
         return jedis.get(key);
+    }
+
+    @Override
+    public String expire(String key, long seconds) {
+        if (jedis.exists(key)) {
+            return jedis.set(key, jedis.get(key), "XX", "EX", seconds);
+        }
+        return null;
     }
 }
