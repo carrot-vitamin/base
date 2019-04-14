@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
 
+import java.util.Set;
+
 public class RedisServiceImpl implements IRedisService {
 
     private static Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
@@ -56,5 +58,25 @@ public class RedisServiceImpl implements IRedisService {
             return jedis.set(key, jedis.get(key), "XX", "EX", seconds);
         }
         return null;
+    }
+
+    @Override
+    public Set<String> keys() {
+        return this.jedis.keys("*");
+    }
+
+    @Override
+    public Long ttl(String key) {
+        return this.jedis.ttl(key);
+    }
+
+    @Override
+    public Long persist(String key) {
+        return this.jedis.persist(key);
+    }
+
+    @Override
+    public String type(String key) {
+        return this.jedis.type(key);
     }
 }

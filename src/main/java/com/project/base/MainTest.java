@@ -1,8 +1,7 @@
 package com.project.base;
 
-import com.project.base.util.AESUtils;
-import com.project.base.util.Base64Utils;
-import com.project.base.util.KeyGenerator;
+import com.project.base.service.IRedisService;
+import com.project.base.service.impl.RedisServiceImpl;
 
 /**
  * @ClassName: MainTest
@@ -12,14 +11,12 @@ import com.project.base.util.KeyGenerator;
  */
 public class MainTest {
 
-    public static void main(String[] args) {
-        String s = Base64Utils.encode("abcde");
-        System.out.println(s);
-        System.out.println(Base64Utils.decode(s));
-
-        String key = KeyGenerator.generate();
-        String ss = AESUtils.encrypt(key, "abcde");
-        System.out.println(ss);
-        System.out.println(AESUtils.decrypt(key, ss));
+    public static void main(String[] args) throws InterruptedException {
+        IRedisService redisService = new RedisServiceImpl("192.168.32.128", 6379, "123456");
+        redisService.set("key", "1");
+        redisService.set("key", "2", 2);
+        System.out.println(redisService.get("key"));
+        Thread.sleep(3 * 1000);
+        System.out.println(redisService.get("key"));
     }
 }
