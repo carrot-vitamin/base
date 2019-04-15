@@ -15,43 +15,43 @@ public interface IRedisService {
 
     /**
      * 获取所有的key
-     * @return
+     * @return string
      */
     Set<String> keys();
 
     /**
      * 查看某个key的剩余生存时间,单位【秒】.永久生存或者不存在的都返回-1
-     * @param key
-     * @return
+     * @param key key值
+     * @return string
      */
     Long ttl(String key);
 
     /**
      * 移除某个key的生存时间
-     * @param key
-     * @return
+     * @param key key值
+     * @return string
      */
     Long persist(String key);
 
     /**
      * 查看key所储存的值的类型
-     * @param key
-     * @return
+     * @param key key值
+     * @return string
      */
     String type(String key);
 
     /**
      * list中添加数据
-     * @param key
-     * @param value
-     * @return
+     * @param key key值
+     * @param value value
+     * @return string
      */
     Long lpush(String key, String value);
 
     /**
      * 列举list中所有元素
-     * @param key
-     * @return
+     * @param key key值
+     * @return string
      */
     List<String> lrange(String key);
 

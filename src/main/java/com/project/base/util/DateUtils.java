@@ -9,10 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * @ClassName: DateUtils
- * @Description:
- * @author: ex-yinshaobo001
- * @date: 2018/11/30 2:32 PM
+ * @author ex-yinshaobo001
+ * @date 2018/11/30 2:32 PM
  */
 public class DateUtils {
 
@@ -32,8 +30,8 @@ public class DateUtils {
 
     /**
      * 判断当天是周几
-     * @param date
-     * @return
+     * @param date java.util.Date
+     * @return string
      */
     public static String getWeekDay(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -61,7 +59,7 @@ public class DateUtils {
     /**
      * 判断当天是周几
      * @param date yyyy-MM-dd
-     * @return
+     * @return string
      */
     public static String getWeekDay(String date) {
         try {
@@ -74,8 +72,8 @@ public class DateUtils {
 
     /**
      * 判断当天是否为工作日（周一到周五）
-     * @param date
-     * @return
+     * @param date date
+     * @return boolean
      */
     public static boolean isWorkDay(Date date) {
         String weekDay = getWeekDay(date);
@@ -84,8 +82,8 @@ public class DateUtils {
 
     /**
      * 判断日期是否为周六或周日
-     * @param date
-     * @return
+     * @param date date
+     * @return boolean
      */
     public static boolean isWeekend(Date date) {
         return !isWorkDay(date);
@@ -93,9 +91,9 @@ public class DateUtils {
 
     /**
      * 将指定日期增加指定天数
-     * @param date
-     * @param days
-     * @return
+     * @param date date
+     * @param days days
+     * @return Date
      */
     public static Date addDays(Date date, int days) {
         Calendar calendar = Calendar.getInstance();
@@ -104,10 +102,4 @@ public class DateUtils {
         return calendar.getTime();
     }
 
-    public static void main(String[] args) throws Exception {
-//        System.out.println(System.currentTimeMillis());
-//        System.out.println(System.currentTimeMillis() + 10 * 1000);
-//        System.out.println(defaultDateFormat.format(addDays(new SimpleDateFormat("yyyy-MM-dd").parse("2019-04-01"), 5)));;
-        System.out.println(isWeekend(addDays(new Date(), 1)));
-    }
 }

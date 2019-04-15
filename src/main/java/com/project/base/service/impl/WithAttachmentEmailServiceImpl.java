@@ -8,10 +8,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 /**
- * @ClassName: WithAttachmentEmailServiceImpl
- * @Description: 带图片或附件的邮件
- * @author: yinshaobo
- * @date: 2019/4/12 14:37
+ * @author yinshaobo
+ * @date 2019/4/12 14:37
  */
 public class WithAttachmentEmailServiceImpl extends AbstractEmailService {
 

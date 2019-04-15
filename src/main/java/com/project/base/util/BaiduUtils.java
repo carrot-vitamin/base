@@ -12,7 +12,6 @@ import java.util.Map;
 
 /**
  * @author yin
- * @desc BaiduUtils
  * @date 2018/12/29 20:43
  */
 public class BaiduUtils {

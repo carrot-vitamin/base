@@ -13,7 +13,6 @@ import java.security.SecureRandom;
 
 /**
  * @author yin
- * @desc AESUtils
  * @date 2018/9/29 23:52
  */
 public class AESUtils {
@@ -29,9 +28,9 @@ public class AESUtils {
      * 5.内容加密
      * 6.返回字符串
      *
-     * @param aesKey
-     * @param content
-     * @return
+     * @param aesKey aesKey
+     * @param content content
+     * @return string
      */
     public static String encrypt(String aesKey, String content) {
         try {
@@ -60,9 +59,9 @@ public class AESUtils {
      * 1.同加密1-4步
      * 2.将加密后的字符串反纺成byte[]数组
      * 3.将加密内容解密
-     * @param aesKey
-     * @param content
-     * @return
+     * @param aesKey aesKey
+     * @param content content
+     * @return string
      */
     public static String decrypt(String aesKey, String content) {
         try {

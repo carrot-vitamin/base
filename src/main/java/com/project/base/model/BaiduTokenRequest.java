@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author yin
- * @desc BaiduTokenRequest
  * @date 2018/12/30 2:52
  */
 public class BaiduTokenRequest {

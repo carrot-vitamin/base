@@ -10,10 +10,8 @@ import java.net.URL;
 import java.util.Properties;
 
 /**
- * @ClassName: FileUtils
- * @Description:
- * @author: ex-yinshaobo001
- * @date: 2018/12/28 10:06 AM
+ * @author ex-yinshaobo001
+ * @date 2018/12/28 10:06 AM
  */
 public class FileUtils {
 
@@ -25,7 +23,7 @@ public class FileUtils {
      * 获取resources文件夹下文件的路径
      *
      * @param fileName e.g. config/application.properties
-     * @return
+     * @return String
      */
     public static String getResourceFilePath(String fileName) {
         String path = null;
@@ -42,7 +40,7 @@ public class FileUtils {
      * 获取resources文件夹下Properties对象
      *
      * @param propertiesName properties文件名 e.g. config/application.properties
-     * @return
+     * @return Properties
      */
     public static Properties getProperties(String propertiesName) {
         Properties properties = null;
@@ -62,9 +60,9 @@ public class FileUtils {
     /**
      * 根据key获取properties file value
      *
-     * @param key
+     * @param key key
      * @param propertiesName e.g. config/application.properties
-     * @return
+     * @return String
      */
     public static String getPropertiesValue(String key, String propertiesName) {
         String value = null;
@@ -80,7 +78,7 @@ public class FileUtils {
     /**
      * 删除文件（夹）
      *
-     * @param folderPath
+     * @param folderPath folderPath
      */
     public static boolean deleteFile(String folderPath) {
         //删除完里面所有内容
@@ -93,8 +91,8 @@ public class FileUtils {
     /**
      * 删除文件夹下所有文件
      *
-     * @param path
-     * @return
+     * @param path path
+     * @return boolean
      */
     private static boolean delAllFile(String path) {
         boolean flag = false;

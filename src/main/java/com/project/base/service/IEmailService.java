@@ -1,10 +1,8 @@
 package com.project.base.service;
 
 /**
- * @ClassName: IEmailService
- * @Description:
- * @author: yinshaobo
- * @date: 2019/4/12 13:34
+ * @author yinshaobo
+ * @date 2019/4/12 13:34
  */
 public interface IEmailService {
 

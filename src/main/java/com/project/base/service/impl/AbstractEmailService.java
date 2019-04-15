@@ -15,10 +15,8 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
- * @ClassName: AbstractEmailService
- * @Description:
- * @author: yinshaobo
- * @date: 2019/4/12 13:35
+ * @author yinshaobo
+ * @date 2019/4/12 13:35
  */
 public abstract class AbstractEmailService implements IEmailService {
 
@@ -56,9 +54,9 @@ public abstract class AbstractEmailService implements IEmailService {
     /**
      * 获得创建一封邮件的实例对象
      *
-     * @param session
-     * @return
-     * @throws Exception
+     * @param session session
+     * @return MimeMessage
+     * @throws java.lang.Exception exception
      */
     private MimeMessage getMimeMessage(Session session, String from, String to, String subject, String content, String filePath) throws Exception {
         //创建一封邮件的实例对象
@@ -82,10 +80,10 @@ public abstract class AbstractEmailService implements IEmailService {
     /**
      * 纯文本或带有附件的特殊处理逻辑方法
      *
-     * @param msg
-     * @param content
-     * @param filePath
-     * @throws Exception
+     * @param msg MimeMessage
+     * @param content content
+     * @param filePath filePath
+     * @throws Exception Exception
      */
     public abstract void operate(MimeMessage msg, String content, String filePath) throws Exception;
 

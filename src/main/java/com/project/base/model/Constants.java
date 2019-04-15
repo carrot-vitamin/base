@@ -4,7 +4,6 @@ import com.project.base.service.impl.RedisServiceImpl;
 
 /**
  * @author yin
- * @desc Constants
  * @date 2018/12/29 20:02
  */
 public class Constants {

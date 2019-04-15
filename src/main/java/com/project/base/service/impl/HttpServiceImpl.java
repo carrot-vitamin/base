@@ -71,10 +71,10 @@ public class HttpServiceImpl implements IHttpService {
 
     /**
      * form表单提交
-     * @param url
-     * @param params
-     * @return
-     * @throws Exception
+     * @param url 请求url
+     * @param params 请求map参数
+     * @return 相应数据
+     * @throws Exception exception
      */
     @Override
     public String post(String url, Map<String, Object> params) throws Exception {

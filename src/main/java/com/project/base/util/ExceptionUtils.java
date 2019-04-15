@@ -7,8 +7,8 @@ public class ExceptionUtils {
 
     /**
      * 包装异常堆栈信息字符串
-     * @param e
-     * @return
+     * @param e Throwable
+     * @return String
      */
     public static String printStackTraceToString(Throwable e) {
         StringWriter sw = new StringWriter();

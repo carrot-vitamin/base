@@ -3,12 +3,6 @@ package com.project.base;
 import com.project.base.service.IRedisService;
 import com.project.base.service.impl.RedisServiceImpl;
 
-/**
- * @ClassName: MainTest
- * @Description:
- * @author: yinshaobo
- * @date: 2019/4/12 15:58
- */
 public class MainTest {
 
     public static void main(String[] args) throws InterruptedException {

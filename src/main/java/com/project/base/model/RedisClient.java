@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName: RedisClient
- * @Description:
- * @author: yinshaobo
- * @date: 2019/4/12 17:50
+ * @author yinshaobo001
+ * @date 2019/4/12 17:50
  */
 public class RedisClient {
 

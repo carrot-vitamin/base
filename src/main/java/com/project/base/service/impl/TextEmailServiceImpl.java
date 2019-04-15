@@ -3,10 +3,8 @@ package com.project.base.service.impl;
 import javax.mail.internet.MimeMessage;
 
 /**
- * @ClassName: TextEmailServiceImpl
- * @Description: 仅包含文本的简单邮件
- * @author: yinshaobo
- * @date: 2019/4/12 14:31
+ * @author yinshaobo
+ * @date 2019/4/12 14:31
  */
 public class TextEmailServiceImpl extends AbstractEmailService {
 

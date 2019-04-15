@@ -8,17 +8,15 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 /**
- * @ClassName: Base64Utils
- * @Description:
- * @author: yinshaobo
- * @date: 2018/9/20 下午6:28
+ * @author yinshaobo
+ * @date 2018/9/20 下午6:28
  */
 public class Base64Utils {
 
     /**
      * 文件转为Base64
      * @param filePath 本地文件路径
-     * @return
+     * @return string
      */
     public static String file2Base64(String filePath) {
         InputStream in;
@@ -45,9 +43,9 @@ public class Base64Utils {
 
     /**
      * 将Base64转为文件
-     * @param base64
+     * @param base64 base64
      * @param localPath 本地文件
-     * @return
+     * @return boolean
      */
     public static boolean base642File(String base64, String localPath) {
         // 图像数据为空
@@ -78,8 +76,8 @@ public class Base64Utils {
 
     /**
      * Base64编码
-     * @param string
-     * @return
+     * @param string 要编码的字符串
+     * @return 编码后的字符串
      */
     public static String encode(String string) {
         return Base64.encodeBase64URLSafeString(string.getBytes(Charset.defaultCharset()));
@@ -87,8 +85,8 @@ public class Base64Utils {
 
     /**
      * Base64解码
-     * @param string
-     * @return
+     * @param string 编码后的字符串
+     * @return 解码后的字符串
      */
     public static String decode(String string) {
         return new String(Base64.decodeBase64(string), Charset.defaultCharset());
