@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
 
+import java.util.List;
 import java.util.Set;
 
 public class RedisServiceImpl implements IRedisService {
@@ -78,5 +79,15 @@ public class RedisServiceImpl implements IRedisService {
     @Override
     public String type(String key) {
         return this.jedis.type(key);
+    }
+
+    @Override
+    public Long lpush(String key, String value) {
+        return this.jedis.lpush(key, value);
+    }
+
+    @Override
+    public List<String> lrange(String key) {
+        return this.jedis.lrange(key, 0, -1);
     }
 }

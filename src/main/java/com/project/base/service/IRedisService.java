@@ -1,5 +1,6 @@
 package com.project.base.service;
 
+import java.util.List;
 import java.util.Set;
 
 public interface IRedisService {
@@ -38,5 +39,20 @@ public interface IRedisService {
      * @return
      */
     String type(String key);
+
+    /**
+     * list中添加数据
+     * @param key
+     * @param value
+     * @return
+     */
+    Long lpush(String key, String value);
+
+    /**
+     * 列举list中所有元素
+     * @param key
+     * @return
+     */
+    List<String> lrange(String key);
 
 }
