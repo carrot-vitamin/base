@@ -40,23 +40,23 @@ public class RedisServiceImpl implements IRedisService {
     public String set(String key, String value, long seconds) {
         String result;
         // NX是不存在时才set， XX是存在时才set， EX是秒，PX是毫秒
-        if (jedis.exists(key)) {
-            result = jedis.set(key, value, "XX", "EX", seconds);
+        if (this.jedis.exists(key)) {
+            result = this.jedis.set(key, value, "XX", "EX", seconds);
         } else {
-            result = jedis.set(key, value, "NX", "EX", seconds);
+            result = this.jedis.set(key, value, "NX", "EX", seconds);
         }
         return result;
     }
 
     @Override
     public String get(String key) {
-        return jedis.get(key);
+        return this.jedis.get(key);
     }
 
     @Override
     public String expire(String key, long seconds) {
-        if (jedis.exists(key)) {
-            return jedis.set(key, jedis.get(key), "XX", "EX", seconds);
+        if (this.jedis.exists(key)) {
+            return this.jedis.set(key, this.jedis.get(key), "XX", "EX", seconds);
         }
         return null;
     }
@@ -89,5 +89,35 @@ public class RedisServiceImpl implements IRedisService {
     @Override
     public List<String> lrange(String key) {
         return this.jedis.lrange(key, 0, -1);
+    }
+
+    @Override
+    public List<String> lrange(String key, long start, long end) {
+        return this.jedis.lrange(key, start, end);
+    }
+
+    @Override
+    public Long lrem(String key, long count, String value) {
+        return this.jedis.lrem(key, count, value);
+    }
+
+    @Override
+    public String ltrim(String key, long start, long end) {
+        return this.jedis.ltrim(key, start, end);
+    }
+
+    @Override
+    public String lpop(String key) {
+        return this.jedis.lpop(key);
+    }
+
+    @Override
+    public Long llen(String key) {
+        return this.jedis.llen(key);
+    }
+
+    @Override
+    public String lindex(String key, long index) {
+        return this.jedis.lindex(key, index);
     }
 }

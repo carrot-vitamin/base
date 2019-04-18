@@ -24,5 +24,5 @@ public interface IHttpService {
 
     HttpResponse getHttpResponseByPost(String url, Map<String, Object> params) throws Exception;
 
-    File getFileByPost(String url, Map<String, Object> params, String localFile) throws Exception;
+    File getFileByPost(String url, Map<String, Object> params, String localFile, String suffixName) throws Exception;
 }

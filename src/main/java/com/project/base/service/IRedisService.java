@@ -40,6 +40,8 @@ public interface IRedisService {
      */
     String type(String key);
 
+    /*******************************************list操作********************************/
+
     /**
      * list中添加数据
      * @param key key值
@@ -55,4 +57,55 @@ public interface IRedisService {
      */
     List<String> lrange(String key);
 
+    /**
+     * 列举指定区间元素
+     * @param key 存储list的key
+     * @param start 元素下标
+     * @param end 元素下标；-1代表倒数一个元素，-2代表倒数第二个元素
+     * @return
+     */
+    List<String> lrange(String key, long start, long end);
+
+    /**
+     * 删除列表指定的值 ，后add进去的值先被删，类似于出栈
+     * @param key 存储list的key
+     * @param count 删除的个数（有重复时）
+     * @param value 要删除的value
+     * @return 成功删除指定元素个数
+     */
+    Long lrem(String key, long count, String value);
+
+    /**
+     * 删除区间以外的数据
+     * @param key 存储list的key
+     * @param start 下标起始
+     * @param end 下标结束
+     * @return
+     */
+    String ltrim(String key, long start, long end);
+
+    /**
+     * 列表元素出栈，先进后出，后进先出
+     * @param key 存储list的key
+     * @return
+     */
+    String lpop(String key);
+
+    /**
+     * 列表长度
+     * @param key 存储list的key
+     * @return
+     */
+    Long llen(String key);
+
+    /**
+     * 获取指定下标的值
+     * @param key 存储list的key
+     * @param index 下标
+     * @return
+     */
+    String lindex(String key, long index);
+
+
+    /*******************************************set操作********************************/
 }

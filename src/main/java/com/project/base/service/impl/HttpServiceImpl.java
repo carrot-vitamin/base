@@ -137,9 +137,9 @@ public class HttpServiceImpl implements IHttpService {
     }
 
     @Override
-    public File getFileByPost(String url, Map<String, Object> params, String localFile) throws Exception {
+    public File getFileByPost(String url, Map<String, Object> params, String localFile, String suffixName) throws Exception {
         InputStream inputStream = getInputStreamByPost(url, params);
-        File file = new File(localFile + System.currentTimeMillis() + ".mp3");
+        File file = new File(localFile + System.currentTimeMillis() + suffixName);
         if (!file.exists() && !file.isDirectory()) {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
