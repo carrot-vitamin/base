@@ -120,4 +120,79 @@ public class RedisServiceImpl implements IRedisService {
     public String lindex(String key, long index) {
         return this.jedis.lindex(key, index);
     }
+
+    @Override
+    public Long sadd(String key, String...value) {
+        return this.jedis.sadd(key, value);
+    }
+
+    @Override
+    public Set<String> smembers(String key) {
+        return this.jedis.smembers(key);
+    }
+
+    @Override
+    public Long srem(String key, String... value) {
+        return this.jedis.srem(key, value);
+    }
+
+    @Override
+    public Boolean sismember(String key, String value) {
+        return this.jedis.sismember(key, value);
+    }
+
+    @Override
+    public Set<String> sinter(String set1, String set2) {
+        return this.jedis.sinter(set1, set2);
+    }
+
+    @Override
+    public Set<String> sunion(String set1, String set2) {
+        return this.jedis.sunion(set1, set2);
+    }
+
+    @Override
+    public Set<String> sdiff(String set1, String set2) {
+        return this.jedis.sdiff(set1, set2);
+    }
+
+    @Override
+    public Long hset(String hKey, String key, String value) {
+        return this.jedis.hset(hKey, key, value);
+    }
+
+    @Override
+    public Long hincrBy(String hKey, String key, long value) {
+        return this.jedis.hincrBy(hKey, key, value);
+    }
+
+    @Override
+    public Set<String> hkeys(String hKey) {
+        return this.jedis.hkeys(hKey);
+    }
+
+    @Override
+    public List<String> hvals(String hKey) {
+        return this.jedis.hvals(hKey);
+    }
+
+    @Override
+    public Long hdel(String hKey, String... fields) {
+        return this.jedis.hdel(hKey, fields);
+    }
+
+    @Override
+    public Boolean hexists(String hKey, String field) {
+        return this.jedis.hexists(hKey, field);
+    }
+
+    @Override
+    public String hget(String hKey, String field) {
+        return this.jedis.hget(hKey, field);
+    }
+
+    @Override
+    public List<String> hmget(String hKey, String... value) {
+        return this.jedis.hmget(hKey, value);
+    }
 }

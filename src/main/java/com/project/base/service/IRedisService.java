@@ -40,7 +40,7 @@ public interface IRedisService {
      */
     String type(String key);
 
-    /*******************************************list操作********************************/
+    /*******************************************List操作********************************/
 
     /**
      * list中添加数据
@@ -107,5 +107,127 @@ public interface IRedisService {
     String lindex(String key, long index);
 
 
-    /*******************************************set操作********************************/
+    /*******************************************Set操作********************************/
+
+    /**
+     * 想set中添加元素
+     * @param key 存储set的key
+     * @param value
+     * @return
+     */
+    Long sadd(String key, String...value);
+
+    /**
+     * 列举set所有元素
+     * @param key 存储set的key
+     * @return
+     */
+    Set<String> smembers(String key);
+
+    /**
+     * 删除set元素
+     * @param key
+     * @param value
+     * @return
+     */
+    Long srem(String key, String...value);
+
+    /**
+     * 判断元素是否在set中
+     * @param key
+     * @param value
+     * @return
+     */
+    Boolean sismember(String key, String value);
+
+    /**
+     * 两set交集
+     * @param set1
+     * @param set2
+     * @return
+     */
+    Set<String> sinter(String set1, String set2);
+
+    /**
+     * 两set并集
+     * @param set1
+     * @param set2
+     * @return
+     */
+    Set<String> sunion(String set1, String set2);
+
+    /**
+     * 两set差集：set1中有，set2中没有的元素
+     * @param set1
+     * @param set2
+     * @return
+     */
+    Set<String> sdiff(String set1, String set2);
+
+
+    /*******************************************Hash操作********************************/
+
+    /**
+     * hash中添加元素
+     * @param hKey 保存hash的key
+     * @param key
+     * @param value
+     * @return
+     */
+    Long hset(String hKey, String key, String value);
+
+    /**
+     * 添加整形元素
+     * @param hKey
+     * @param key
+     * @param value
+     * @return
+     */
+    Long hincrBy(String hKey, String key, long value);
+
+    /**
+     * 获取hash中所有key
+     * @param hKey
+     * @return
+     */
+    Set<String> hkeys(String hKey);
+
+    /**
+     * 获取hash中所有的value
+     * @param hKey
+     * @return
+     */
+    List<String> hvals(String hKey);
+
+    /**
+     * 删除hash中的key值
+     * @param hKey
+     * @param fields
+     * @return
+     */
+    Long hdel(String hKey, String...fields);
+
+    /**
+     * 判断key是否存在
+     * @param hKey
+     * @param field
+     * @return
+     */
+    Boolean hexists(String hKey, String field);
+
+    /**
+     * 获取key对应的值
+     * @param hKey
+     * @param field
+     * @return
+     */
+    String hget(String hKey, String field);
+
+    /**
+     * 批量获取key对应的value
+     * @param hKey
+     * @param value
+     * @return
+     */
+    List<String> hmget(String hKey, String...value);
 }
