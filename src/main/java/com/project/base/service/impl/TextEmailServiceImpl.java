@@ -8,6 +8,10 @@ import javax.mail.internet.MimeMessage;
  */
 public class TextEmailServiceImpl extends AbstractEmailService {
 
+    public TextEmailServiceImpl(String senderAddress, String senderPassword) {
+        super(senderAddress, senderPassword);
+    }
+
     @Override
     public void operate(MimeMessage msg, String content, String filePath) throws Exception {
         //设置邮件正文

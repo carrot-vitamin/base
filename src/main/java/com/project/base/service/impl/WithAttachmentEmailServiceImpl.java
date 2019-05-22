@@ -13,6 +13,10 @@ import javax.mail.internet.MimeUtility;
  */
 public class WithAttachmentEmailServiceImpl extends AbstractEmailService {
 
+    public WithAttachmentEmailServiceImpl(String senderAddress, String senderPassword) {
+        super(senderAddress, senderPassword);
+    }
+
     @Override
     public void operate(MimeMessage msg, String content, String filePath) throws Exception {
         // 6. 创建文本"节点"
