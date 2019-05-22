@@ -6,10 +6,3 @@ base64转码
 HTTP服务
 Email服务
 Redis
-
-
-发布jar包步骤：
-mvn clean deploy -P release
-GPG密码：0okm(IJN
-
-登录 https://oss.sonatype.org/ --> close && release
