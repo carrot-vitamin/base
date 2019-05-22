@@ -8,7 +8,8 @@ Email服务
 Redis
 
 
-
-3C236CD5BC1B74FDF443BCE9593D8ABD05176416
-
+发布jar包步骤：
 mvn clean deploy -P release
+GPG密码：0okm(IJN
+
+登录 https://oss.sonatype.org/ --> close && release
