@@ -16,6 +16,8 @@ public interface IHttpService {
 
     String post(String url, Map<String, Object> params) throws Exception;
 
+    String post(String url, Object object) throws Exception;
+
     String postJson(String url, String json) throws Exception;
 
     String postJson(String url, Map<String, Object> params) throws Exception;

@@ -1,6 +1,7 @@
 package com.project.base.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.project.base.service.IHttpService;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -80,6 +81,11 @@ public class HttpServiceImpl implements IHttpService {
     public String post(String url, Map<String, Object> params) throws Exception {
         HttpResponse response = getHttpResponseByPost(url, params);
         return getResult(response);
+    }
+
+    @Override
+    public String post(String url, Object object) throws Exception {
+        return this.post(url, JSONObject.parseObject(JSON.toJSONString(object), Map.class));
     }
 
     @Override
