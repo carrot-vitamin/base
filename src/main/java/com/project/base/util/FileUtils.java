@@ -5,7 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
 
@@ -126,5 +128,34 @@ public class FileUtils {
             }
         }
         return flag;
+    }
+
+    /**
+     * 将流转换为本地文件，以时间戳自动命名
+     * @param inputStream
+     * @param localFilePath 要保存的本地路径，如 /Users/file/voice/
+     * @param fileName 文件名
+     * @return
+     * @throws Exception
+     */
+    public static File saveFileByInputStream(InputStream inputStream, String localFilePath, String fileName) throws Exception {
+        File file = new File(localFilePath + fileName);
+        if (!file.exists() && !file.isDirectory()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        OutputStream out = new FileOutputStream(file);
+        byte[] buffer = new byte[4096];
+        int readLength;
+        while ((readLength = inputStream.read(buffer)) > 0) {
+            byte[] bytes = new byte[readLength];
+            System.arraycopy(buffer, 0, bytes, 0, readLength);
+            out.write(bytes);
+        }
+        out.flush();
+        out.close();
+        return file;
     }
 }

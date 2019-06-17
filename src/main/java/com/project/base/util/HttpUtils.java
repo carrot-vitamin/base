@@ -18,9 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,25 +130,8 @@ public class HttpUtils {
         return httpClient.execute(httpPost);
     }
 
-    public static File getFileByPost(String url, Map<String, Object> params, String localFilePath, String suffixName) throws Exception {
+    public static File getFileByPost(String url, Map<String, Object> params, String localFilePath, String fileName) throws Exception {
         InputStream inputStream = getInputStreamByPost(url, params);
-        File file = new File(localFilePath + System.currentTimeMillis() + suffixName);
-        if (!file.exists() && !file.isDirectory()) {
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        }
-        OutputStream out = new FileOutputStream(file);
-        byte[] buffer = new byte[4096];
-        int readLength;
-        while ((readLength = inputStream.read(buffer)) > 0) {
-            byte[] bytes = new byte[readLength];
-            System.arraycopy(buffer, 0, bytes, 0, readLength);
-            out.write(bytes);
-        }
-        out.flush();
-        out.close();
-        return file;
+        return FileUtils.saveFileByInputStream(inputStream, localFilePath, fileName);
     }
 }
