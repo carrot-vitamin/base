@@ -1,8 +1,7 @@
-package com.project.base.service.impl;
+package com.project.base.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.project.base.service.IHttpService;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HttpServiceImpl implements IHttpService {
+public class HttpUtils {
 
     private static CloseableHttpClient httpClient;
 
@@ -41,8 +40,7 @@ public class HttpServiceImpl implements IHttpService {
                 .setSocketTimeout(3000).build();
     }
 
-    @Override
-    public String get(String url) throws Exception {
+    public static String get(String url) throws Exception {
         // 声明 http get 请求
         HttpGet httpGet = new HttpGet(url);
         // 装载配置信息
@@ -52,8 +50,7 @@ public class HttpServiceImpl implements IHttpService {
         return getResult(response);
     }
 
-    @Override
-    public String get(String url, Map<String, Object> params) throws Exception {
+    public static String get(String url, Map<String, Object> params) throws Exception {
         URIBuilder uriBuilder = new URIBuilder(url);
         if (params != null) {
             // 遍历map,拼接请求参数
@@ -65,8 +62,7 @@ public class HttpServiceImpl implements IHttpService {
         return get(uriBuilder.build().toString());
     }
 
-    @Override
-    public String post(String url) throws Exception {
+    public static String post(String url) throws Exception {
         return post(url, null);
     }
 
@@ -77,19 +73,16 @@ public class HttpServiceImpl implements IHttpService {
      * @return 相应数据
      * @throws Exception exception
      */
-    @Override
-    public String post(String url, Map<String, Object> params) throws Exception {
+    public static String post(String url, Map<String, Object> params) throws Exception {
         HttpResponse response = getHttpResponseByPost(url, params);
         return getResult(response);
     }
 
-    @Override
-    public String post(String url, Object object) throws Exception {
-        return this.post(url, JSONObject.parseObject(JSON.toJSONString(object), Map.class));
+    public static String post(String url, Object object) throws Exception {
+        return post(url, JSONObject.parseObject(JSON.toJSONString(object), Map.class));
     }
 
-    @Override
-    public String postJson(String url, String json) throws Exception {
+    public static String postJson(String url, String json) throws Exception {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(config);
         StringEntity entity = new StringEntity(json, Charset.forName("utf-8"));
@@ -100,29 +93,26 @@ public class HttpServiceImpl implements IHttpService {
         return getResult(response);
     }
 
-    @Override
-    public String postJson(String url, Map<String, Object> params) throws Exception {
+    public static String postJson(String url, Map<String, Object> params) throws Exception {
         return postJson(url, JSON.toJSONString(params));
     }
 
-    @Override
-    public InputStream getInputStreamByPost(String url, Map<String, Object> params) throws Exception {
+    public static InputStream getInputStreamByPost(String url, Map<String, Object> params) throws Exception {
         return getHttpResponseByPost(url, params).getEntity().getContent();
     }
 
-    private boolean responseOK(HttpResponse response) {
+    private static boolean responseOK(HttpResponse response) {
         return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
     }
 
-    private String getResult(HttpResponse response) throws Exception {
+    private static String getResult(HttpResponse response) throws Exception {
         if (responseOK(response)) {
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         }
         throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
     }
 
-    @Override
-    public HttpResponse getHttpResponseByPost(String url, Map<String, Object> params) throws Exception {
+    public static HttpResponse getHttpResponseByPost(String url, Map<String, Object> params) throws Exception {
         // 声明httpPost请求
         HttpPost httpPost = new HttpPost(url);
         // 加入配置信息
@@ -142,10 +132,9 @@ public class HttpServiceImpl implements IHttpService {
         return httpClient.execute(httpPost);
     }
 
-    @Override
-    public File getFileByPost(String url, Map<String, Object> params, String localFile, String suffixName) throws Exception {
+    public static File getFileByPost(String url, Map<String, Object> params, String localFilePath, String suffixName) throws Exception {
         InputStream inputStream = getInputStreamByPost(url, params);
-        File file = new File(localFile + System.currentTimeMillis() + suffixName);
+        File file = new File(localFilePath + System.currentTimeMillis() + suffixName);
         if (!file.exists() && !file.isDirectory()) {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
