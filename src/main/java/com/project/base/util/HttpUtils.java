@@ -2,6 +2,7 @@ package com.project.base.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -12,6 +13,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -102,6 +105,34 @@ public class HttpUtils {
 
     public static String postJson(String url, Map<String, Object> params) throws Exception {
         return postJson(url, JSON.toJSONString(params));
+    }
+
+    public static String postBinary(String url, Map<String, Object> params) throws Exception {
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setConfig(config);
+        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
+        multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            Object object = entry.getValue();
+            if (object instanceof String) {
+                /*multipartEntityBuilder.addPart(entry.getKey(), new StringBody("This is comment", ContentType.TEXT_PLAIN));*/
+                multipartEntityBuilder.addTextBody(entry.getKey(), String.valueOf(entry.getValue()));
+            } else if (object instanceof File) {
+                /*multipartEntityBuilder.addBinaryBody(entry.getKey(), file, ContentType.create("image/png"),"abc.pdf");*/
+                /*当设置了setSocketTimeout参数后，以下代码上传PDF不能成功，将setSocketTimeout参数去掉后此可以上传成功。上传图片则没有个限制*/
+                multipartEntityBuilder.addBinaryBody(entry.getKey(), (File) object);
+            } else if (object instanceof InputStream) {
+                multipartEntityBuilder.addBinaryBody(entry.getKey(), (InputStream) object);
+            } else if (object instanceof byte []) {
+                multipartEntityBuilder.addBinaryBody(entry.getKey(), (byte []) object);
+            }
+        }
+        HttpEntity httpEntity = multipartEntityBuilder.build();
+        httpPost.setEntity(httpEntity);
+        CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
+        return getResult(httpResponse);
     }
 
     /**
