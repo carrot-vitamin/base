@@ -17,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -152,6 +153,19 @@ public class HttpUtils {
         }
         // 发起请求
         return httpClient.execute(httpPost);
+    }
+
+    /**
+     * 以GET方式从网络下载文件流并保存为本地文件
+     * @param url 网络URL
+     * @param localFilePath 本地文件路径
+     * @param fileName 文件名
+     * @return
+     * @throws Exception
+     */
+    public static File getFileByGet(String url, String localFilePath, String fileName) throws Exception {
+        InputStream inputStream = getInputStreamByGet(url);
+        return FileUtils.saveFileByInputStream(inputStream, localFilePath, fileName);
     }
 
 }

@@ -169,4 +169,14 @@ public class FileUtils {
         }
         return false;
     }
+
+    /**
+     * 根据网络地址解析后缀名
+     * @param url
+     * @return
+     */
+    public static String getSuffixNameByURL(String url) {
+        String[] split = url.split("/");
+        return split[split.length - 1];
+    }
 }
