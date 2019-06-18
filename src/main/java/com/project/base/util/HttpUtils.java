@@ -131,6 +131,10 @@ public class HttpUtils {
         }
         HttpEntity httpEntity = multipartEntityBuilder.build();
         httpPost.setEntity(httpEntity);
+        httpPost.addHeader("Connection", "keep-alive");
+        httpPost.addHeader("Accept", "*/*");
+        httpPost.addHeader("Content-Type", "multipart/form-data");
+        httpPost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
         CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
         return getResult(httpResponse);
     }
