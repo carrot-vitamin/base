@@ -4,10 +4,7 @@ import com.alibaba.fastjson.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.Properties;
 
@@ -140,12 +137,7 @@ public class FileUtils {
      */
     public static File saveFileByInputStream(InputStream inputStream, String localFilePath, String fileName) throws Exception {
         File file = new File(localFilePath + fileName);
-        if (!file.exists() && !file.isDirectory()) {
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        }
+        createFile(file);
         OutputStream out = new FileOutputStream(file);
         byte[] buffer = new byte[4096];
         int readLength;
@@ -157,5 +149,24 @@ public class FileUtils {
         out.flush();
         out.close();
         return file;
+    }
+
+    /**
+     * 创建文件，不存在则新建
+     * @param file
+     * @return
+     */
+    public static boolean createFile(File file) {
+        try {
+            if (!file.exists() && !file.isDirectory()) {
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
+                return file.createNewFile();
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+        return false;
     }
 }

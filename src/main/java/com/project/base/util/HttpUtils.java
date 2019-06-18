@@ -17,8 +17,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.File;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,13 @@ public class HttpUtils {
         return getResult(response);
     }
 
+    /**
+     * form表单方式提交对象
+     * @param url
+     * @param object
+     * @return
+     * @throws Exception
+     */
     public static String post(String url, Object object) throws Exception {
         return post(url, JSONObject.parseObject(JSON.toJSONString(object), Map.class));
     }
@@ -93,6 +101,22 @@ public class HttpUtils {
 
     public static String postJson(String url, Map<String, Object> params) throws Exception {
         return postJson(url, JSON.toJSONString(params));
+    }
+
+    /**
+     * 通过get请求得到读取器响应数据的数据流
+     * @param url
+     * @return
+     */
+    public static InputStream getInputStreamByGet(String url) throws Exception {
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        conn.setReadTimeout(5000);
+        conn.setConnectTimeout(5000);
+        conn.setRequestMethod("GET");
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            return conn.getInputStream();
+        }
+        throw new Exception("HttpUtils.getInputStreamByGet error");
     }
 
     public static InputStream getInputStreamByPost(String url, Map<String, Object> params) throws Exception {
@@ -130,8 +154,4 @@ public class HttpUtils {
         return httpClient.execute(httpPost);
     }
 
-    public static File getFileByPost(String url, Map<String, Object> params, String localFilePath, String fileName) throws Exception {
-        InputStream inputStream = getInputStreamByPost(url, params);
-        return FileUtils.saveFileByInputStream(inputStream, localFilePath, fileName);
-    }
 }
