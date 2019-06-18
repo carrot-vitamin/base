@@ -6,3 +6,7 @@ base64转码
 HTTP服务
 Email服务
 Redis
+
+
+
+mvn clean deploy -P release
