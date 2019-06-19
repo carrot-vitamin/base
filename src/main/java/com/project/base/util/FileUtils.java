@@ -10,7 +10,7 @@ import java.util.Properties;
 
 /**
  * @author ex-yinshaobo001
- * @date 2018/12/28 10:06 AM
+ * 2018/12/28 10:06 AM
  */
 public class FileUtils {
 
@@ -76,8 +76,8 @@ public class FileUtils {
 
     /**
      * 删除文件（夹）
-     *
-     * @param folderPath folderPath
+     * @param folderPath 要删除的文件夹路径
+     * @return 操作结果
      */
     public static boolean deleteFile(String folderPath) {
         //删除完里面所有内容
@@ -90,8 +90,8 @@ public class FileUtils {
     /**
      * 删除文件夹下所有文件
      *
-     * @param path path
-     * @return boolean
+     * @param path 要删除的文件夹路径
+     * @return 操作结果
      */
     private static boolean delAllFile(String path) {
         boolean flag = false;
@@ -129,11 +129,11 @@ public class FileUtils {
 
     /**
      * 将流转换为本地文件，以时间戳自动命名
-     * @param inputStream
+     * @param inputStream 文件流
      * @param localFilePath 要保存的本地路径，如 /Users/file/voice/
      * @param fileName 文件名
-     * @return
-     * @throws Exception
+     * @return File对象
+     * @throws Exception IOException
      */
     public static File saveFileByInputStream(InputStream inputStream, String localFilePath, String fileName) throws Exception {
         File file = new File(localFilePath + fileName);
@@ -153,8 +153,8 @@ public class FileUtils {
 
     /**
      * 创建文件，不存在则新建
-     * @param file
-     * @return
+     * @param file File对象
+     * @return 操作结果
      */
     public static boolean createFile(File file) {
         try {
@@ -172,8 +172,8 @@ public class FileUtils {
 
     /**
      * 根据网络地址解析后缀名
-     * @param url
-     * @return
+     * @param url 网络URL地址
+     * @return 解析后的后缀名
      */
     public static String getSuffixNameByURL(String url) {
         String[] split = url.split("/");

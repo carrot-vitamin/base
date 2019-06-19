@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @author ex-yinshaobo001
- * @date 2018/11/30 2:32 PM
+ * 2018/11/30 2:32 PM
  */
 public class DateUtils {
 

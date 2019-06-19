@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 
 /**
  * @author yinshaobo
- * @date 2018/9/20 下午6:28
+ * 2018/9/20 下午6:28
  */
 public class Base64Utils {
 

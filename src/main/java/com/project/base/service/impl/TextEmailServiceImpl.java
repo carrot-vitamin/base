@@ -4,7 +4,7 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * @author yinshaobo
- * @date 2019/4/12 14:31
+ * 2019/4/12 14:31
  */
 public class TextEmailServiceImpl extends AbstractEmailService {
 

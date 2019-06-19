@@ -9,7 +9,7 @@ import javax.mail.internet.MimeUtility;
 
 /**
  * @author yinshaobo
- * @date 2019/4/12 14:37
+ * 2019/4/12 14:37
  */
 public class WithAttachmentEmailServiceImpl extends AbstractEmailService {
 

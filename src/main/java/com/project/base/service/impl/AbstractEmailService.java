@@ -15,7 +15,7 @@ import java.util.Properties;
 
 /**
  * @author yinshaobo
- * @date 2019/4/12 13:35
+ * 2019/4/12 13:35
  */
 public abstract class AbstractEmailService implements IEmailService {
 

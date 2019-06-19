@@ -2,7 +2,7 @@ package com.project.base.service;
 
 /**
  * @author yinshaobo
- * @date 2019/4/12 13:34
+ * 2019/4/12 13:34
  */
 public interface IEmailService {
 

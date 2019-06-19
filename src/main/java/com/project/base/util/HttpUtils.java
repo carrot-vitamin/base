@@ -83,10 +83,10 @@ public class HttpUtils {
 
     /**
      * form表单方式提交对象
-     * @param url
-     * @param object
-     * @return
-     * @throws Exception
+     * @param url 请求URL地址
+     * @param object 要提交的参数对象
+     * @return 响应结果
+     * @throws Exception Exception
      */
     public static String post(String url, Object object) throws Exception {
         return post(url, JSONObject.parseObject(JSON.toJSONString(object), Map.class));
@@ -141,8 +141,9 @@ public class HttpUtils {
 
     /**
      * 通过get请求得到读取器响应数据的数据流
-     * @param url
-     * @return
+     * @param url 请求URL地址
+     * @return 获取的文件流
+     * @throws Exception Exception
      */
     public static InputStream getInputStreamByGet(String url) throws Exception {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -195,8 +196,8 @@ public class HttpUtils {
      * @param url 网络URL
      * @param localFilePath 本地文件路径
      * @param fileName 文件名
-     * @return
-     * @throws Exception
+     * @return File对象
+     * @throws Exception Exception
      */
     public static File getFileByGet(String url, String localFilePath, String fileName) throws Exception {
         InputStream inputStream = getInputStreamByGet(url);

@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 
 /**
  * @author yin
- * @date 2018/9/29 23:52
+ * 2018/9/29 23:52
  */
 public class AESUtils {
 
