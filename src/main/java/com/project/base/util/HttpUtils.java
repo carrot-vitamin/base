@@ -28,6 +28,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class HttpUtils {
 
@@ -117,7 +118,7 @@ public class HttpUtils {
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             Object object = entry.getValue();
             if (object instanceof String) {
-                /*multipartEntityBuilder.addPart(entry.getKey(), new StringBody("This is comment", ContentType.TEXT_PLAIN));*/
+                /*multipartEntityBuilder.addPart(entry.getKey(), new StringBody((String) entry.getValue(), ContentType.TEXT_PLAIN));*/
                 multipartEntityBuilder.addTextBody(entry.getKey(), String.valueOf(entry.getValue()));
             } else if (object instanceof File) {
                 /*multipartEntityBuilder.addBinaryBody(entry.getKey(), file, ContentType.create("image/png"),"abc.pdf");*/
@@ -133,7 +134,7 @@ public class HttpUtils {
         httpPost.setEntity(httpEntity);
         httpPost.addHeader("Connection", "keep-alive");
         httpPost.addHeader("Accept", "*/*");
-        httpPost.addHeader("Content-Type", "multipart/form-data");
+        httpPost.addHeader("Content-Type", "multipart/form-data;boundary=" + new Random().nextLong());
         httpPost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
         CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
         return getResult(httpResponse);
