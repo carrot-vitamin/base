@@ -34,12 +34,17 @@ public class HttpUtils {
 
     private static RequestConfig config;
 
+    /**
+     * 设置链接超时时间为60s
+     */
+    private static final int TIME_OUT = 60 * 1000;
+
     static {
         httpClient = HttpClients.createDefault();
         config = RequestConfig.custom()
-                .setConnectionRequestTimeout(3000)
-                .setConnectTimeout(3000)
-                .setSocketTimeout(3000).build();
+                .setConnectionRequestTimeout(TIME_OUT)
+                .setConnectTimeout(TIME_OUT)
+                .setSocketTimeout(TIME_OUT).build();
     }
 
     public static String get(String url) throws Exception {
