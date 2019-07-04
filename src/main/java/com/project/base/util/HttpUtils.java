@@ -2,6 +2,7 @@ package com.project.base.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -26,7 +27,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class HttpUtils {
 
@@ -88,7 +88,7 @@ public class HttpUtils {
      * @throws Exception Exception
      */
     public static String post(String url, Object object) throws Exception {
-        return post(url, JSONObject.parseObject(JSON.toJSONString(object), Map.class));
+        return post(url, JSONObject.parseObject(JSON.toJSONString(object), new TypeReference<Map<String, Object>>() {}));
     }
 
     public static String postJson(String url, String json) throws Exception {
@@ -134,7 +134,7 @@ public class HttpUtils {
         httpPost.setEntity(httpEntity);
         httpPost.addHeader("Connection", "keep-alive");
         httpPost.addHeader("Accept", "*/*");
-        httpPost.addHeader("Content-Type", "multipart/form-data;boundary=" + new Random().nextLong());
+        httpPost.addHeader("Content-Type", "multipart/form-data;boundary=" + httpEntity.getContentLength());
         httpPost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
         CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
         return getResult(httpResponse);
