@@ -2,16 +2,14 @@ package com.project.base.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -115,11 +113,13 @@ public class HttpUtils {
         multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
         multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
+        //解决中文乱码的问题
+        ContentType contentType = ContentType.create("text/plain", Consts.UTF_8);
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             Object object = entry.getValue();
             if (object instanceof String) {
                 /*multipartEntityBuilder.addPart(entry.getKey(), new StringBody((String) entry.getValue(), ContentType.TEXT_PLAIN));*/
-                multipartEntityBuilder.addTextBody(entry.getKey(), String.valueOf(entry.getValue()));
+                multipartEntityBuilder.addTextBody(entry.getKey(), String.valueOf(entry.getValue()), contentType);
             } else if (object instanceof File) {
                 /*multipartEntityBuilder.addBinaryBody(entry.getKey(), file, ContentType.create("image/png"),"abc.pdf");*/
                 /*当设置了setSocketTimeout参数后，以下代码上传PDF不能成功，将setSocketTimeout参数去掉后此可以上传成功。上传图片则没有个限制*/
