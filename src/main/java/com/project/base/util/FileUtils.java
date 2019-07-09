@@ -1,6 +1,7 @@
 package com.project.base.util;
 
 import com.alibaba.fastjson.util.IOUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,5 +179,33 @@ public class FileUtils {
     public static String getSuffixNameByURL(String url) {
         String[] split = url.split("/");
         return split[split.length - 1];
+    }
+
+    /**
+     * 计算文件大小 单位：字节 (kb)
+     * @param base64
+     * @return
+     */
+    public static Long calcFileProperty(String base64) {
+        Integer size = null;
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(base64)) {
+            InputStream inputStream = null;
+            try {
+                byte[] b = Base64.decodeBase64(base64);
+                inputStream = new ByteArrayInputStream(b);
+                size = inputStream.available();
+            }catch(Exception e) {
+                log.error(e.getMessage(), e);
+            }finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        log.error(e.getMessage(), e);
+                    }
+                }
+            }
+        }
+        return size != null ? size.longValue() : null;
     }
 }
