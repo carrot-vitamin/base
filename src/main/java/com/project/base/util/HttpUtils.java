@@ -48,16 +48,14 @@ public class HttpUtils {
     }
 
     public static String get(String url) throws Exception {
-        // 声明 http get 请求
-        HttpGet httpGet = new HttpGet(url);
-        // 装载配置信息
-        httpGet.setConfig(config);
-        // 发起请求
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        return getResult(response);
+        return get(url, null, null);
     }
 
     public static String get(String url, Map<String, Object> params) throws Exception {
+        return get(url, params, null);
+    }
+
+    public static String get(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
         URIBuilder uriBuilder = new URIBuilder(url);
         if (params != null) {
             // 遍历map,拼接请求参数
@@ -65,8 +63,20 @@ public class HttpUtils {
                 uriBuilder.setParameter(entry.getKey(), entry.getValue().toString());
             }
         }
-        // 调用不带参数的get请求
-        return get(uriBuilder.build().toString());
+
+        // 声明 http get 请求
+        HttpGet httpGet = new HttpGet(uriBuilder.toString());
+        // 装载配置信息
+        httpGet.setConfig(config);
+
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                httpGet.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        // 发起请求
+        CloseableHttpResponse response = httpClient.execute(httpGet);
+        return getResult(response);
     }
 
     public static String post(String url) throws Exception {
@@ -81,7 +91,20 @@ public class HttpUtils {
      * @throws Exception exception
      */
     public static String post(String url, Map<String, Object> params) throws Exception {
-        HttpResponse response = getHttpResponseByPost(url, params);
+        HttpResponse response = getHttpResponseByPost(url, params, null);
+        return getResult(response);
+    }
+
+    /**
+     * form表单提交
+     * @param url 请求url
+     * @param params 请求参数
+     * @param headers 请求头信息
+     * @return 返回响应字符串
+     * @throws Exception Exception
+     */
+    public static String post(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
+        HttpResponse response = getHttpResponseByPost(url, params, headers);
         return getResult(response);
     }
 
@@ -97,18 +120,36 @@ public class HttpUtils {
     }
 
     public static String postJson(String url, String json) throws Exception {
+        return getPostJsonResponse(url, json, null);
+    }
+
+    public static String postJson(String url, String json, Map<String, String> headers) throws Exception {
+        return getPostJsonResponse(url, json, headers);
+    }
+
+    public static String postJson(String url, Map<String, Object> params) throws Exception {
+        return getPostJsonResponse(url, params, null);
+    }
+
+    public static String postJson(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
+        return getPostJsonResponse(url, params, headers);
+    }
+
+    private static String getPostJsonResponse(String url, Object object, Map<String, String> headers) throws Exception {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(config);
+        String json = JSON.toJSONString(object);
         StringEntity entity = new StringEntity(json, Charset.forName("utf-8"));
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                httpPost.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
         entity.setContentType("application/json");
         httpPost.setEntity(entity);
         // 发起请求
         CloseableHttpResponse response = httpClient.execute(httpPost);
         return getResult(response);
-    }
-
-    public static String postJson(String url, Map<String, Object> params) throws Exception {
-        return postJson(url, JSON.toJSONString(params));
     }
 
     public static String postBinary(String url, Map<String, Object> params) throws Exception {
@@ -163,7 +204,7 @@ public class HttpUtils {
     }
 
     public static InputStream getInputStreamByPost(String url, Map<String, Object> params) throws Exception {
-        return getHttpResponseByPost(url, params).getEntity().getContent();
+        return getHttpResponseByPost(url, params, null).getEntity().getContent();
     }
 
     private static boolean responseOK(HttpResponse response) {
@@ -177,7 +218,7 @@ public class HttpUtils {
         throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
     }
 
-    public static HttpResponse getHttpResponseByPost(String url, Map<String, Object> params) throws Exception {
+    private static HttpResponse getHttpResponseByPost(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
         // 声明httpPost请求
         HttpPost httpPost = new HttpPost(url);
         // 加入配置信息
@@ -192,6 +233,12 @@ public class HttpUtils {
             UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(list, "UTF-8");
             // 把表单放到post里
             httpPost.setEntity(urlEncodedFormEntity);
+        }
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                httpPost.addHeader(entry.getKey(), entry.getValue());
+            }
+
         }
         // 发起请求
         return httpClient.execute(httpPost);
