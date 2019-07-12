@@ -195,4 +195,14 @@ public class RedisServiceImpl implements IRedisService {
     public List<String> hmget(String hKey, String... value) {
         return this.jedis.hmget(hKey, value);
     }
+
+    @Override
+    public Long incr(String key) {
+        return this.jedis.incr(key);
+    }
+
+    @Override
+    public Long decr(String key) {
+        return this.jedis.decr(key);
+    }
 }

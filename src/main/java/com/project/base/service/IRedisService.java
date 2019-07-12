@@ -230,4 +230,18 @@ public interface IRedisService {
      * @return key对应的value
      */
     List<String> hmget(String hKey, String...value);
+
+    /**
+     * key值对应value + 1，key不存在则设为1
+     * @param key key值
+     * @return 返回增加后的值
+     */
+    Long incr(String key);
+
+    /**
+     * key值对应value - 1，key不存在设为-1
+     * @param key key值
+     * @return 返回减去后的值
+     */
+    Long decr(String key);
 }
