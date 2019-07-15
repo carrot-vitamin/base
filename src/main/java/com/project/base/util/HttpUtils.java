@@ -138,7 +138,12 @@ public class HttpUtils {
     private static String getPostJsonResponse(String url, Object object, Map<String, String> headers) throws Exception {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(config);
-        String json = JSON.toJSONString(object);
+        String json;
+        if (object instanceof String) {
+            json = (String) object;
+        } else {
+            json = JSON.toJSONString(object);
+        }
         StringEntity entity = new StringEntity(json, Charset.forName("utf-8"));
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {

@@ -183,8 +183,8 @@ public class FileUtils {
 
     /**
      * 计算文件大小 单位：字节 (kb)
-     * @param base64
-     * @return
+     * @param base64 base64字符串
+     * @return 文件大小 单位：字节 (kb)
      */
     public static Long calcFileProperty(String base64) {
         Integer size = null;
