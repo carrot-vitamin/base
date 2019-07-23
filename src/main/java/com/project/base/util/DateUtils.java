@@ -102,4 +102,18 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    /**
+     * 计算两个时间的小时差
+     * @param start 开始时间
+     * @param end 结束时间
+     * @return 小时级别的差
+     */
+    public static int hourDisparity(Date start, Date end) {
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(start);
+        calendar2.setTime(end);
+        return calendar2.get(Calendar.HOUR_OF_DAY) - calendar1.get(Calendar.HOUR_OF_DAY);
+    }
+
 }
