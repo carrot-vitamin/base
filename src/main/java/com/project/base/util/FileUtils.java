@@ -208,4 +208,22 @@ public class FileUtils {
         }
         return size != null ? size.longValue() : null;
     }
+
+    public static String readTextContent(String filePath) {
+        try {
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                builder.append(line);
+            }
+            IOUtils.close(bufferedReader);
+            IOUtils.close(fileReader);
+            return builder.toString();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
 }
