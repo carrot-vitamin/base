@@ -226,4 +226,30 @@ public class FileUtils {
             return null;
         }
     }
+
+    /**
+     * 将内容写入指定文件，文件不存在则新建
+     * @param content 要写入的内容
+     * @param filePath 要写入的文件路径
+     * @return 写入结果
+     */
+    public static boolean writeContentToFile(String content, String filePath) {
+        try {
+            File file = new File(filePath);
+            boolean result = createFile(file);
+            if (!result) {
+                return false;
+            } else {
+                OutputStream os = new FileOutputStream(file);
+                PrintStream ps = new PrintStream(os);
+                ps.println(content);
+                ps.close();
+                os.close();
+                return true;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
+    }
 }
