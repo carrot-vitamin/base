@@ -207,179 +207,10 @@ public class RedisServiceImpl implements IRedisService {
         return jedis.exists(getBytesKey(key));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public Long lrem(String key, long count, String value) {
-        key = this.prefix + key;
-        return this.jedis.lrem(key, count, value);
-    }
-
-    @Override
-    public String ltrim(String key, long start, long end) {
-        key = this.prefix + key;
-        return this.jedis.ltrim(key, start, end);
-    }
-
-    @Override
-    public String lpop(String key) {
-        key = this.prefix + key;
-        return this.jedis.lpop(key);
-    }
-
-    @Override
-    public Long llen(String key) {
-        key = this.prefix + key;
-        return this.jedis.llen(key);
-    }
-
-    @Override
-    public String lindex(String key, long index) {
-        key = this.prefix + key;
-        return this.jedis.lindex(key, index);
-    }
-
-    @Override
-    public Long sadd(String key, String...value) {
-        key = this.prefix + key;
-        return this.jedis.sadd(key, value);
-    }
-
-    @Override
-    public Set<String> smembers(String key) {
-        key = this.prefix + key;
-        return this.jedis.smembers(key);
-    }
-
-    @Override
-    public Long srem(String key, String... value) {
-        key = this.prefix + key;
-        return this.jedis.srem(key, value);
-    }
-
-    @Override
-    public Boolean sismember(String key, String value) {
-        key = this.prefix + key;
-        return this.jedis.sismember(key, value);
-    }
-
-    @Override
-    public Set<String> sinter(String set1, String set2) {
-        set1 = this.prefix + set1;
-        set2 = this.prefix + set2;
-        return this.jedis.sinter(set1, set2);
-    }
-
-    @Override
-    public Set<String> sunion(String set1, String set2) {
-        set1 = this.prefix + set1;
-        set2 = this.prefix + set2;
-        return this.jedis.sunion(set1, set2);
-    }
-
-    @Override
-    public Set<String> sdiff(String set1, String set2) {
-        set1 = this.prefix + set1;
-        set2 = this.prefix + set2;
-        return this.jedis.sdiff(set1, set2);
-    }
-
-    @Override
-    public Long hset(String hKey, String key, String value) {
-        hKey = this.prefix + hKey;
-        return this.jedis.hset(hKey, key, value);
-    }
-
-    @Override
-    public Long hincrBy(String hKey, String key, long value) {
-        hKey = this.prefix + hKey;
-        return this.jedis.hincrBy(hKey, key, value);
-    }
-
-    @Override
-    public Set<String> hkeys(String hKey) {
-        hKey = this.prefix + hKey;
-        return this.jedis.hkeys(hKey);
-    }
-
-    @Override
-    public List<String> hvals(String hKey) {
-        hKey = this.prefix + hKey;
-        return this.jedis.hvals(hKey);
-    }
-
-    @Override
-    public Long hdel(String hKey, String... fields) {
-        hKey = this.prefix + hKey;
-        return this.jedis.hdel(hKey, fields);
-    }
-
-    @Override
-    public Long incr(String key) {
-        key = this.prefix + key;
-        return this.jedis.incr(key);
-    }
-
-    @Override
-    public Long decr(String key) {
-        key = this.prefix + key;
-        return this.jedis.decr(key);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * 获取byte[]类型Key
-     * @param t
-     * @return
+     * @param t t
+     * @return byte[]
      */
     private <T extends Serializable> byte[] getBytesKey(T t) {
         byte [] bytes;
@@ -393,8 +224,8 @@ public class RedisServiceImpl implements IRedisService {
 
     /**
      * Object转换byte[]类型
-     * @param t
-     * @return
+     * @param t t
+     * @return byte[]
      */
     private <T extends Serializable> byte[] toBytes(T t){
         return SerializationUtils.serialize(t);
@@ -402,8 +233,8 @@ public class RedisServiceImpl implements IRedisService {
 
     /**
      * byte[]型转换Object
-     * @param bytes
-     * @return
+     * @param bytes bytes
+     * @return T
      */
     private <T extends Serializable> T toObject(byte[] bytes){
         return SerializationUtils.deserialize(bytes);

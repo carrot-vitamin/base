@@ -19,7 +19,7 @@ public class MainTest {
         System.out.println(redisService.hGetAll("key1"));
         redisService.hPut("key1", "k5", new Person("vvv"));
         System.out.println(redisService.hGetAll("key1"));
-        redisService.hdel("key1", "k2");
+        redisService.hDel("key1", "k2");
 //        sleep(5);
         System.out.println(redisService.hGetAll("key1"));
 
