@@ -39,9 +39,15 @@ public class RedisClient {
     private String password;
 
     public RedisClient() {
-        this.host = "127.0.0.1";
-        this.port = 6379;
-        this.init();
+        this(Constants.LOCALHOST, Constants.DEFAULT_REDIS_PORT);
+    }
+
+    public RedisClient(String password) {
+        this(Constants.LOCALHOST, Constants.DEFAULT_REDIS_PORT, password);
+    }
+
+    public RedisClient(String host, Integer port) {
+        this(host, port, null);
     }
 
     public RedisClient(String host, Integer port, String password) {

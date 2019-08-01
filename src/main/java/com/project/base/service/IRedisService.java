@@ -1,17 +1,45 @@
 package com.project.base.service;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface IRedisService {
 
-    String set(String key, String value);
+    <T extends Serializable> String set(String key, T value);
 
-    String set(String key, String value, long seconds);
+    /**
+     * 设置缓存
+     * @param key 键
+     * @param value 值
+     * @param cacheSeconds 超时时间，0为不超时
+     * @return String
+     */
+    <T extends Serializable> String set(String key, T value, int cacheSeconds);
 
-    String get(String key);
+    /**
+     * 设置key的生存时间
+     * @param key 键
+     * @param seconds 生存时间 秒
+     * @return String
+     */
+    long expire(String key, int seconds);
 
-    String expire(String key, long seconds);
+    /**
+     * 删除缓存
+     * @param key 键
+     * @return
+     */
+    long del(String key);
+
+    /**
+     * 获取缓存的值
+     * @param key 键
+     * @param <T> 值
+     * @return T
+     */
+    <T extends Serializable> T get(String key);
 
     /**
      * 获取所有的key
@@ -20,42 +48,11 @@ public interface IRedisService {
     Set<String> keys();
 
     /**
-     * 查看某个key的剩余生存时间,单位【秒】.永久生存或者不存在的都返回-1
-     * @param key key值
-     * @return string
-     */
-    Long ttl(String key);
-
-    /**
-     * 移除某个key的生存时间
-     * @param key key值
-     * @return string
-     */
-    Long persist(String key);
-
-    /**
-     * 查看key所储存的值的类型
-     * @param key key值
-     * @return string
-     */
-    String type(String key);
-
-    /*******************************************List操作********************************/
-
-    /**
-     * list中添加数据
-     * @param key key值
-     * @param value value
-     * @return string
-     */
-    Long lpush(String key, String value);
-
-    /**
      * 列举list中所有元素
      * @param key key值
-     * @return string
+     * @return T
      */
-    List<String> lrange(String key);
+    <T extends Serializable> List<T> lrange(String key);
 
     /**
      * 列举指定区间元素
@@ -64,7 +61,115 @@ public interface IRedisService {
      * @param end 元素下标；-1代表倒数一个元素，-2代表倒数第二个元素
      * @return 区间元素集合
      */
-    List<String> lrange(String key, long start, long end);
+    <T extends Serializable> List<T> lrange(String key, long start, long end);
+
+    /**
+     * 设置List缓存
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    <T extends Serializable> long setList(String key, List<T> value);
+
+    /**
+     * 设置List缓存
+     * @param key 键
+     * @param value 值
+     * @param cacheSeconds 超时时间，0为不超时
+     * @return
+     */
+    <T extends Serializable> long setList(String key, List<T> value, int cacheSeconds);
+
+    /**
+     * 设置Map缓存
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    <T extends Serializable> String hmset(String key, Map<String, T> value);
+
+    /**
+     * 设置Map缓存
+     * @param key 键
+     * @param value 值
+     * @param cacheSeconds 超时时间，0为不超时
+     * @return
+     */
+    <T extends Serializable> String hmset(String key, Map<String, T> value, int cacheSeconds);
+
+    /**
+     * 向Map缓存中添加值
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    <T extends Serializable> long hPut(String key, String mKey, T value);
+
+    /**
+     * 获取Map缓存
+     * @param key 键
+     * @return 值
+     */
+    <T extends Serializable> Map<String, T> hGetAll(String key);
+
+    /**
+     * 获取map值
+     * @param key key
+     * @param field map key
+     * @param <T> V
+     * @return T
+     */
+    <T extends Serializable> T hGet(String key, String field);
+
+    /**
+     * 移除Map缓存中的值
+     * @param key 键
+     * @param mapKey map键
+     * @return
+     */
+    long hDel(String key, String mapKey);
+
+    /**
+     * 判断Map缓存中的Key是否存在
+     * @param key 键
+     * @param field map键
+     * @return
+     */
+    boolean hexists(String key, String field);
+
+    /**
+     * 缓存是否存在
+     * @param key 键
+     * @return
+     */
+    boolean exists(String key);
+
+
+
+    /*FIXME 以上已验证通过*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*******************************************List操作********************************/
 
     /**
      * 删除列表指定的值 ，后add进去的值先被删，类似于出栈
@@ -208,30 +313,6 @@ public interface IRedisService {
     Long hdel(String hKey, String...fields);
 
     /**
-     * 判断key是否存在
-     * @param hKey 保存hash的key
-     * @param field key
-     * @return key是否存在
-     */
-    Boolean hexists(String hKey, String field);
-
-    /**
-     * 获取key对应的值
-     * @param hKey 保存hash的key
-     * @param field key
-     * @return key对应的值
-     */
-    String hget(String hKey, String field);
-
-    /**
-     * 批量获取key对应的value
-     * @param hKey 保存hash的key
-     * @param value key
-     * @return key对应的value
-     */
-    List<String> hmget(String hKey, String...value);
-
-    /**
      * key值对应value + 1，key不存在则设为1
      * @param key key值
      * @return 返回增加后的值
@@ -244,4 +325,19 @@ public interface IRedisService {
      * @return 返回减去后的值
      */
     Long decr(String key);
+
+
+    /*---------------------新工具类分割线---------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
 }
