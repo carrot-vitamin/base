@@ -60,12 +60,10 @@ public class RedisClient {
     private void init () {
         initialPool();
         initialShardedPool();
-        shardedJedis = shardedJedisPool.getResource();
-        jedis = jedisPool.getResource();
     }
 
     public Jedis getJedis() {
-        return jedis;
+        return jedisPool.getResource();
     }
 
     public void setJedis(Jedis jedis) {
@@ -73,7 +71,7 @@ public class RedisClient {
     }
 
     public ShardedJedis getShardedJedis() {
-        return shardedJedis;
+        return shardedJedisPool.getResource();
     }
 
     public void setShardedJedis(ShardedJedis shardedJedis) {
