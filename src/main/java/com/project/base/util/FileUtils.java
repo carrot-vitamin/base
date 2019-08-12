@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * @author ex-yinshaobo001
@@ -209,22 +210,30 @@ public class FileUtils {
         return size != null ? size.longValue() : null;
     }
 
+    /**
+     * 读取文本内容
+     * @param filePath 文件路径
+     * @return 文本内容
+     */
     public static String readTextContent(String filePath) {
+        InputStream inputStream = null;
+        Scanner scanner = null;
+        String content = null;
         try {
-            FileReader fileReader = new FileReader(filePath);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line;
+            inputStream = new FileInputStream(filePath);
+            scanner = new Scanner(inputStream, "UTF-8");
             StringBuilder builder = new StringBuilder();
-            while ((line = bufferedReader.readLine()) != null) {
-                builder.append(line);
+            while (scanner.hasNextLine()) {
+                builder.append(scanner.nextLine()).append("\n");
             }
-            IOUtils.close(bufferedReader);
-            IOUtils.close(fileReader);
-            return builder.toString();
+            content = builder.toString();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return null;
+        } finally {
+            IOUtils.close(scanner);
+            IOUtils.close(inputStream);
         }
+        return content;
     }
 
     /**
