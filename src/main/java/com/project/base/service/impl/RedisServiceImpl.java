@@ -337,6 +337,70 @@ public class RedisServiceImpl implements IRedisService {
         return result;
     }
 
+    @Override
+    public Long incr(String key) {
+        key = this.prefix + key;
+        Long value = null;
+        Jedis jedis = null;
+        try {
+            jedis = this.getJedis();
+            value = jedis.incr(getBytesKey(key));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            this.close(jedis);
+        }
+        return value;
+    }
+
+    @Override
+    public Long incrBy(String key, long integer) {
+        key = this.prefix + key;
+        Long value = null;
+        Jedis jedis = null;
+        try {
+            jedis = this.getJedis();
+            value = jedis.incrBy(getBytesKey(key), integer);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            this.close(jedis);
+        }
+        return value;
+    }
+
+    @Override
+    public Long decr(String key) {
+        key = this.prefix + key;
+        Long value = null;
+        Jedis jedis = null;
+        try {
+            jedis = this.getJedis();
+            value = jedis.decr(getBytesKey(key));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            this.close(jedis);
+        }
+        return value;
+    }
+
+    @Override
+    public Long decrBy(String key, long integer) {
+        key = this.prefix + key;
+        Long value = null;
+        Jedis jedis = null;
+        try {
+            jedis = this.getJedis();
+            value = jedis.decrBy(getBytesKey(key), integer);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            this.close(jedis);
+        }
+        return value;
+    }
+
     /**
      * 获取byte[]类型Key
      * @param t t

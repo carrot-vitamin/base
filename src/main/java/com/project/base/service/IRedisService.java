@@ -154,4 +154,33 @@ public interface IRedisService {
      */
     boolean exists(String key);
 
+    /**
+     * 通过key 对value进行加值+1操作,当value不是int类型时会返回错误,当key不存在是则value为1
+     * @param key key
+     * @return +1 后的值
+     */
+    Long incr(String key);
+
+    /**
+     * 通过key给指定的value加值,如果key不存在,则这时value为该值
+     * @param key key
+     * @param integer v
+     * @return Long
+     */
+    Long incrBy(String key, long integer);
+
+    /**
+     * 对key的值做减减操作,如果key不存在,则设置key为-1
+     * @param key key
+     * @return -1后的值
+     */
+    Long decr(String key);
+
+    /**
+     * 减去指定的值
+     * @param key k
+     * @param integer v
+     * @return 减去后的值
+     */
+    Long decrBy(String key, long integer);
 }
