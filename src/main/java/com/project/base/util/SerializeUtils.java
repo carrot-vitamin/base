@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * @author yinshaobo on 2019-08-01 13:27
  */
-public class ObjectUtils {
+public class SerializeUtils {
 
     /**
      * 序列化
