@@ -14,7 +14,7 @@ public class RSAUtils {
 
     /**
      * 随机生成密钥对
-     *
+     * @return Key
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
     public static Key genKeyPair() throws NoSuchAlgorithmException {

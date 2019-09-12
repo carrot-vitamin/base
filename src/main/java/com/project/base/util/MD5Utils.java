@@ -175,7 +175,8 @@ public class MD5Utils {
     /**
      * 双层加密的MD5值
      *
-     * @param strSrc
+     * @param strSrc strSrc
+     * @return String
      */
     public static String getSimenMD5(String strSrc) {
         String str1 = getMD5String(strSrc).toLowerCase();
