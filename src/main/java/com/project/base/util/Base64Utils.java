@@ -1,6 +1,9 @@
 package com.project.base.util;
 
+import com.alibaba.fastjson.util.IOUtils;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -13,8 +16,11 @@ import java.nio.charset.Charset;
  */
 public class Base64Utils {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Base64Utils.class);
+
     /**
      * 文件转为Base64
+     *
      * @param filePath 本地文件路径
      * @return string
      */
@@ -30,7 +36,7 @@ public class Base64Utils {
             in.read(data);
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
         // 对字节数组Base64编码
@@ -43,7 +49,8 @@ public class Base64Utils {
 
     /**
      * 将Base64转为文件
-     * @param base64 base64
+     *
+     * @param base64    base64
      * @param localPath 本地文件
      * @return boolean
      */
@@ -76,6 +83,7 @@ public class Base64Utils {
 
     /**
      * Base64编码
+     *
      * @param string 要编码的字符串
      * @return 编码后的字符串
      */
@@ -85,10 +93,40 @@ public class Base64Utils {
 
     /**
      * Base64解码
+     *
      * @param string 编码后的字符串
      * @return 解码后的字符串
      */
     public static String decode(String string) {
         return new String(Base64.decodeBase64(string), Charset.defaultCharset());
+    }
+
+    /**
+     * 将流转为base64
+     *
+     * @param inputStream 二进制流
+     * @return base64字符串
+     */
+    private String binary2Base64(InputStream inputStream) {
+        String base64 = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            byte[] buffer;
+            int len;
+            byte[] buf = new byte[2048];
+            while ((len = inputStream.read(buf)) != -1) {
+                baos.write(buf, 0, len);
+            }
+            baos.flush();
+            buffer = baos.toByteArray();
+            base64 = Base64.encodeBase64String(buffer);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
+            IOUtils.close(baos);
+            IOUtils.close(inputStream);
+        }
+        return base64;
     }
 }

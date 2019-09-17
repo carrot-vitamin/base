@@ -1,5 +1,8 @@
 package com.project.base.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +17,8 @@ import java.security.NoSuchAlgorithmException;
  * @author yin
  */
 public class MD5Utils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MD5Utils.class);
 
     /**
      * 16进制字符集
@@ -33,7 +38,7 @@ public class MD5Utils {
         try {
             messageDigest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -55,14 +60,13 @@ public class MD5Utils {
             messageDigest.update(byteBuffer);
             ret = bytesToHex(messageDigest.digest());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         } finally {
             try {
                 ch.close();
                 in.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
 

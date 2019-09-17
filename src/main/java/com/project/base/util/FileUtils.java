@@ -21,7 +21,7 @@ public class FileUtils {
     private static ClassLoader classLoader = FileUtils.class.getClassLoader();
 
     /**
-     * 获取resources文件夹下文件的路径
+     * 获取resources文件夹下文件的路径 可以是test下的resources文件夹
      *
      * @param fileName e.g. config/application.properties
      * @return String
@@ -38,7 +38,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取resources文件夹下Properties对象
+     * 获取resources文件夹下Properties对象 可以是test下的resources文件夹
      *
      * @param propertiesName properties文件名 e.g. config/application.properties
      * @return Properties
@@ -174,8 +174,8 @@ public class FileUtils {
 
     /**
      * 根据网络地址解析后缀名
-     * @param url 网络URL地址
-     * @return 解析后的后缀名
+     * @param url 网络URL地址 e.g. https://www.baidu.com/img/bd_logo1.png
+     * @return 解析后的后缀名  bd_logo1.png
      */
     public static String getSuffixNameByURL(String url) {
         String[] split = url.split("/");
