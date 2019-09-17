@@ -16,7 +16,7 @@ public class KeyGenerator {
     /**
      * 位数，默认是8位
      */
-    private final static long w = 100000000;
+    private final static long W = 100000000;
 
     public static String generate() {
         return UUID.randomUUID().toString().replaceAll("-", "");
@@ -29,7 +29,7 @@ public class KeyGenerator {
     public static String randomTimestamp() {
         long r;
         synchronized (lock) {
-            r = (long) ((Math.random() + 1) * w);
+            r = (long) ((Math.random() + 1) * W);
         }
         return DateFormatEnum.yyyyMMddHHmmsss.getDateFormat().format(new Date()) + String.valueOf(r).substring(1);
     }
