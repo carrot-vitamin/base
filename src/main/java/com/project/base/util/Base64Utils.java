@@ -4,8 +4,6 @@ import com.alibaba.fastjson.util.IOUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -40,10 +38,9 @@ public class Base64Utils {
             return null;
         }
         // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-
+        java.util.Base64.Encoder encoder = java.util.Base64.getEncoder();
         //返回Base64编码过的字节数组字符串
-        return encoder.encode(data);
+        return encoder.encodeToString(data);
 
     }
 
@@ -59,10 +56,10 @@ public class Base64Utils {
         if (base64 == null) {
             return false;
         }
-        BASE64Decoder decoder = new BASE64Decoder();
         try {
             // Base64解码
-            byte[] b = decoder.decodeBuffer(base64);
+            java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
+            byte[] b = decoder.decode(base64);
             for (int i = 0; i < b.length; ++i) {
                 // 调整异常数据
                 if (b[i] < 0) {

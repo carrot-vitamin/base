@@ -2,14 +2,14 @@ package com.project.base.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 /**
  * @author yin
@@ -40,14 +40,14 @@ public class AESUtils {
             //7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密解密(Decrypt_mode)操作，第二个参数为使用的KEY
             cipher.init(Cipher.ENCRYPT_MODE, key);
             //8.获取加密内容的字节数组(这里要设置为utf-8)不然内容中如果有中文和英文混合中文就会解密为乱码
-            byte[] byteEncode = content.getBytes("utf-8");
+            byte[] byteEncode = content.getBytes(StandardCharsets.UTF_8);
             //9.根据密码器的初始化方式--加密：将数据加密
             byte[] byteAES = cipher.doFinal(byteEncode);
             //10.将加密后的数据转换为字符串
             //这里用Base64Encoder中会找不到包
             //解决办法：
             //在项目的Build path中先移除JRE System Library，再添加库JRE System Library，重新编译后就一切正常了。
-            return new BASE64Encoder().encode(byteAES);
+            return Base64.getEncoder().encodeToString(byteAES);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -71,7 +71,7 @@ public class AESUtils {
             //7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密(Decrypt_mode)操作，第二个参数为使用的KEY
             cipher.init(Cipher.DECRYPT_MODE, key);
             //8.将加密并编码后的内容解码成字节数组
-            byte[] byteContent = new BASE64Decoder().decodeBuffer(content);
+            byte[] byteContent = Base64.getDecoder().decode(content);
             /*
              * 解密
              */
