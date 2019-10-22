@@ -1,6 +1,8 @@
 package com.project.base.service.impl;
 
 import com.project.base.service.IEmailService;
+import com.project.base.util.RSAUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,8 @@ public abstract class AbstractEmailService implements IEmailService {
 
     private static Logger log = LoggerFactory.getLogger(AbstractEmailService.class);
 
+    private static final String PRIVATE_KEY = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJDdXG7Xr5PpddRW/00mwAspNCSjLAZHtuu7gzXtAJayf9MFvu4RA2AKGBp83BY3PmdhXSJ6uDin0QDHpS8lgvC8/i1SD/tJM5YNtNaZ6vaGXoDOQMqJqpvEA6vs81zeUav9V3RD8WAnkWgm/KN1OB6Xh/Xlnrhz6XLhxef1S/aJAgMBAAECgYAV5zJTnA7zCUiEi4bcbnB4/4jfxUAhzvQMXnSvUZ9WKbUD/glpS288NSqBzsEkJsQrs1/2l6GFB3KlcIo8P6q1aU8zOfSsSFL4HYHx+U5P7aflx8+vYR7KeZDPT+j0js9a9kkA4bwguNdz1Fwmry6e8oD5Z9Lya+cboo5BQJ6nAQJBAPpDBfpu34MLCKRQqlsX9i/RzXqVDVY/qwaH1Uo1sxTYH4W+LzQTd126fHcZybGzm9BdgGqXmPk0LneHOTYuW+ECQQCUL66Vw+2UurdNzEAAtZGv6u+Ht2/8GbMQBQAH4N1ITTIa9Hae1ojWcUs658IXFhaaa+bMbNRUMzmtIoBgMy+pAkB8PjoBknm0fQ3VRZbNkp/OLcJtUQJGB2XI4DarmO1HM+SyaTDWEbP4/FQ+bLcNWbXJRCI0yP5Q+e73uFJW670BAkBYDVUyDK/5dlFBWyKUyU7+Nx2JiUhzhlnOJQp1o/oY4jXpqmVp0JSSx9Mp91hvG2Lm80K7KdepCJ82749UmlWxAkBH+Lthrl3m0wj+i3jKRooQaKr7JQXlSoysrC11WN5NhomSPuMvGVu2JsLPxGnTCpGh3k1JB4kgOZTj1H23Gjma";
+
     private static Properties props = new Properties();
 
     /**
@@ -33,7 +37,26 @@ public abstract class AbstractEmailService implements IEmailService {
      */
     private String senderPassword;
 
+    /**
+     * 初始化邮箱构造函数
+     * @param senderAddress 163邮箱账户 使用颁发的公钥加密
+     * @param senderPassword 邮箱客户端授权码 使用颁发的公钥加密
+     */
     public AbstractEmailService(String senderAddress, String senderPassword) {
+        if (StringUtils.isBlank(senderAddress) || StringUtils.isBlank(senderPassword)) {
+            log.warn("init 163 email error...account={}, pwd={}", senderAddress, senderPassword);
+            throw new RuntimeException("init 163 email error, account or password is blank");
+        }
+        try {
+            senderAddress = RSAUtils.decryptWithPrivateKey(senderAddress, PRIVATE_KEY);
+            senderPassword = RSAUtils.decryptWithPrivateKey(senderPassword, PRIVATE_KEY);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        if (!senderAddress.endsWith("@163.com")) {
+            log.warn("init 163 email error, not support other type email...account={}", senderAddress);
+            throw new RuntimeException("init 163 email error, not support other type email");
+        }
         this.senderAddress = senderAddress;
         this.senderPassword = senderPassword;
     }

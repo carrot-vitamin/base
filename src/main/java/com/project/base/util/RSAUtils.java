@@ -17,7 +17,7 @@ public class RSAUtils {
      * @return Key
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
-    public static Key genKeyPair() throws NoSuchAlgorithmException {
+    public static Key getKeyPair() throws NoSuchAlgorithmException {
         // KeyPairGenerator类用于生成公钥和私钥对，基于RSA算法生成对象
         KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
         // 初始化密钥对生成器，密钥大小为96-1024位
@@ -42,7 +42,7 @@ public class RSAUtils {
      * @return 密文
      * @throws Exception 加密过程中的异常信息
      */
-    public static String encrypt(String data, String publicKey) throws Exception {
+    public static String encryptWithPublicKey(String data, String publicKey) throws Exception {
         //base64编码的公钥
         byte[] decoded = Base64.decodeBase64(publicKey);
         RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(decoded));
@@ -60,7 +60,7 @@ public class RSAUtils {
      * @return 铭文
      * @throws Exception 解密过程中的异常信息
      */
-    public static String decrypt(String data, String privateKey) throws Exception {
+    public static String decryptWithPrivateKey(String data, String privateKey) throws Exception {
         //64位解码加密后的字符串
         byte[] inputByte = Base64.decodeBase64(data.getBytes(Charset.defaultCharset()));
         //base64编码的私钥

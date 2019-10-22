@@ -1,22 +1,13 @@
 package com.project.base;
 
-import com.project.base.util.FileUtils;
-
 public class MainTest {
 
-    private static final String PRIVATE_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIJz4Hi+dyGyFNdQ6laxFf4Q+nRrkhNieYSn75RpQ4EJCMdfb+pqdoeMmFaIa76ow9ISS+IbQR3vIz7dUgP4r+VEZJwm/xwNjDhYvvgetrQi9+xqALxA+ZAMS0BdHtzI1yvxYBLsRadSuVtMqFahC9An8k4abtmotCo1u7LPn2AwIDAQAB";
+    private static final String PRIVATE_KEY = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJDdXG7Xr5PpddRW/00mwAspNCSjLAZHtuu7gzXtAJayf9MFvu4RA2AKGBp83BY3PmdhXSJ6uDin0QDHpS8lgvC8/i1SD/tJM5YNtNaZ6vaGXoDOQMqJqpvEA6vs81zeUav9V3RD8WAnkWgm/KN1OB6Xh/Xlnrhz6XLhxef1S/aJAgMBAAECgYAV5zJTnA7zCUiEi4bcbnB4/4jfxUAhzvQMXnSvUZ9WKbUD/glpS288NSqBzsEkJsQrs1/2l6GFB3KlcIo8P6q1aU8zOfSsSFL4HYHx+U5P7aflx8+vYR7KeZDPT+j0js9a9kkA4bwguNdz1Fwmry6e8oD5Z9Lya+cboo5BQJ6nAQJBAPpDBfpu34MLCKRQqlsX9i/RzXqVDVY/qwaH1Uo1sxTYH4W+LzQTd126fHcZybGzm9BdgGqXmPk0LneHOTYuW+ECQQCUL66Vw+2UurdNzEAAtZGv6u+Ht2/8GbMQBQAH4N1ITTIa9Hae1ojWcUs658IXFhaaa+bMbNRUMzmtIoBgMy+pAkB8PjoBknm0fQ3VRZbNkp/OLcJtUQJGB2XI4DarmO1HM+SyaTDWEbP4/FQ+bLcNWbXJRCI0yP5Q+e73uFJW670BAkBYDVUyDK/5dlFBWyKUyU7+Nx2JiUhzhlnOJQp1o/oY4jXpqmVp0JSSx9Mp91hvG2Lm80K7KdepCJ82749UmlWxAkBH+Lthrl3m0wj+i3jKRooQaKr7JQXlSoysrC11WN5NhomSPuMvGVu2JsLPxGnTCpGh3k1JB4kgOZTj1H23Gjma";
 
-    private static final String PUBLIC_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIgnPgeL53IbIU11DqVrEV/hD6dGuSE2J5hKfvlGlDgQkIx19v6mp2h4yYVohrvqjD0hJL4htBHe8jPt1SA/iv5URknCb/HA2MOFi++B62tCL37GoAvED5kAxLQF0e3MjXK/FgEuxFp1K5W0yoVqEL0CfyThpu2ai0KjW7ss+fYDAgMBAAECgYAnapz1mFYn3ZzVjMbxsr5z8HcUqU/dQo1R9Hcv+XPdi0Yds+UOsfaTMyy8N5eR/YQeCmNVu/IinlWmHPtve5XkQSjGGIFs0jgyRktv0s8w/m6yuL3u/P/5SE07ONwsvDiui3M7oIsFl05d/0g4OAelsyAIypAgKSa8rhpnqrIR+QJBAL58gLZSh+L8PiNxBangT4+JjX0sgWQPaGltkrqYn8JQeHc0RK0K60pFQtBg3aXeErLCDA766G45x0nu3qr3bOUCQQC2+vMrEvBNAHkLS8T92aViUN4zu4Pb3Z4HLPwbNf22L4Be/Avf76x5he095PkqWqlpGGd94krOV4dmjXoJHhDHAkAtCLZNZHmn2ka+jkvue4+TuctvmoQEqfffZP5ZixfKEshINl0+I+S4rGM9bIk6W6RECshbCkrFNHe/LPALr29ZAkEAppjDT2N14FXe31cEKy+/MU15kdZXjpYvbE8b1laJAhgro8+NrDzWZup1/1V7OoHDHsm2aFnhTA9LWybShnyWPwJAFwKeYrg0Bw0NPAZ+nnWEu+7rJMkstaRxjJpY4iShY9x5PTSABGLYxyfO/yW5HAQHbKmpu7szsikr1YH4gBcZEw==";
+    private static final String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCQ3Vxu16+T6XXUVv9NJsALKTQkoywGR7bru4M17QCWsn/TBb7uEQNgChgafNwWNz5nYV0ierg4p9EAx6UvJYLwvP4tUg/7STOWDbTWmer2hl6AzkDKiaqbxAOr7PNc3lGr/Vd0Q/FgJ5FoJvyjdTgel4f15Z64c+ly4cXn9Uv2iQIDAQAB";
 
 
     public static void main(String[] args) throws Exception {
-//        RSAUtils.Key key = RSAUtils.genKeyPair();
-//        String priKey = key.getPrivateKeyString();
-//        String pubKey = key.getPublicKeyString();
-//        System.out.println(pubKey + "\n");
-//        System.out.println(priKey + "\n");
-
-        System.out.println(FileUtils.readTextContent("/Users/yin/OneDrive/system.txt"));
     }
 
 }
