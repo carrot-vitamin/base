@@ -27,14 +27,9 @@ public class FileUtils {
      * @return String
      */
     public static String getResourceFilePath(String fileName) {
-        String path = null;
         URL url = classLoader.getResource(fileName);
-        if (url != null) {
-            path = url.getPath();
-        } else {
-            log.warn("can't get file by file name={}", fileName);
-        }
-        return path;
+        assert url != null;
+        return url.getPath();
     }
 
     /**
@@ -42,16 +37,16 @@ public class FileUtils {
      *
      * @param propertiesName properties文件名 e.g. config/application.properties
      * @return Properties
+     * @throws IOException IO异常
      */
-    public static Properties getProperties(String propertiesName) {
-        Properties properties = null;
+    public static Properties getProperties(String propertiesName) throws IOException {
+        Properties properties;
         InputStream inputStream = null;
         try {
             inputStream = classLoader.getResourceAsStream(propertiesName);
             properties = new Properties();
             properties.load(inputStream);
-        } catch (Exception e) {
-            log.error("get Properties error, properties name={}", propertiesName, e);
+            IOUtils.close(inputStream);
         } finally {
             IOUtils.close(inputStream);
         }
@@ -64,16 +59,11 @@ public class FileUtils {
      * @param key key
      * @param propertiesName e.g. config/application.properties
      * @return String
+     * @throws IOException IO异常
      */
-    public static String getPropertiesValue(String key, String propertiesName) {
-        String value = null;
+    public static String getPropertiesValue(String key, String propertiesName) throws IOException {
         Properties properties = getProperties(propertiesName);
-        if (properties != null) {
-            value = properties.getProperty(key);
-        } else {
-            log.warn("can't get Properties object, properties name={}", propertiesName);
-        }
-        return value;
+        return properties.getProperty(key);
     }
 
     /**
@@ -135,41 +125,44 @@ public class FileUtils {
      * @param localFilePath 要保存的本地路径，如 /Users/file/voice/
      * @param fileName 文件名
      * @return File对象
-     * @throws Exception IOException
+     * @throws IOException IOException
      */
-    public static File saveFileByInputStream(InputStream inputStream, String localFilePath, String fileName) throws Exception {
-        File file = new File(localFilePath + fileName);
-        createFile(file);
-        OutputStream out = new FileOutputStream(file);
-        byte[] buffer = new byte[4096];
-        int readLength;
-        while ((readLength = inputStream.read(buffer)) > 0) {
-            byte[] bytes = new byte[readLength];
-            System.arraycopy(buffer, 0, bytes, 0, readLength);
-            out.write(bytes);
+    public static File saveFileByInputStream(InputStream inputStream, String localFilePath, String fileName) throws IOException {
+        File file = createFile(localFilePath + fileName);
+        OutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            byte[] buffer = new byte[4096];
+            int readLength;
+            while ((readLength = inputStream.read(buffer)) > 0) {
+                byte[] bytes = new byte[readLength];
+                System.arraycopy(buffer, 0, bytes, 0, readLength);
+                out.write(bytes);
+            }
+            out.flush();
+        } finally {
+            IOUtils.close(out);
         }
-        out.flush();
-        out.close();
         return file;
     }
 
     /**
-     * 创建文件，不存在则新建
-     * @param file File对象
-     * @return 操作结果
+     * 创建文件，存在则返回
+     * @param filePath 文件路径
+     * @return 文件对象
+     * @throws IOException IO异常
      */
-    public static boolean createFile(File file) {
-        try {
-            if (!file.exists() && !file.isDirectory()) {
-                if (!file.getParentFile().exists()) {
-                    file.getParentFile().mkdirs();
-                }
-                return file.createNewFile();
+    public static File createFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            if (file.getParentFile().exists()) {
+                file.createNewFile();
+            } else {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
             }
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
         }
-        return false;
+        return file;
     }
 
     /**
@@ -186,39 +179,31 @@ public class FileUtils {
      * 计算文件大小 单位：字节 (kb)
      * @param base64 base64字符串
      * @return 文件大小 单位：字节 (kb)
+     * @throws IOException IO异常
      */
-    public static Long calcFileProperty(String base64) {
-        Integer size = null;
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(base64)) {
-            InputStream inputStream = null;
-            try {
-                byte[] b = Base64.decodeBase64(base64);
-                inputStream = new ByteArrayInputStream(b);
-                size = inputStream.available();
-            }catch(Exception e) {
-                log.error(e.getMessage(), e);
-            }finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        log.error(e.getMessage(), e);
-                    }
-                }
-            }
+    public static int calcFileProperty(String base64) throws IOException {
+        int size;
+        assert base64 != null;
+        InputStream inputStream = null;
+        try {
+            byte[] b = Base64.decodeBase64(base64);
+            inputStream = new ByteArrayInputStream(b);
+            size = inputStream.available();
+        } finally {
+            IOUtils.close(inputStream);
         }
-        return size != null ? size.longValue() : null;
+        return size;
     }
 
     /**
      * 读取文本内容
      * @param filePath 文件路径
      * @return 文本内容
+     * @throws FileNotFoundException IO异常
      */
-    public static String readTextContent(String filePath) {
+    public static String readTextContent(String filePath) throws FileNotFoundException {
         InputStream inputStream = null;
         Scanner scanner = null;
-        String content = null;
         try {
             inputStream = new FileInputStream(filePath);
             scanner = new Scanner(inputStream, "UTF-8");
@@ -226,14 +211,11 @@ public class FileUtils {
             while (scanner.hasNextLine()) {
                 builder.append(scanner.nextLine()).append("\n");
             }
-            content = builder.toString();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            return builder.toString();
         } finally {
             IOUtils.close(scanner);
             IOUtils.close(inputStream);
         }
-        return content;
     }
 
     /**
@@ -241,8 +223,9 @@ public class FileUtils {
      * @param content 要写入的内容
      * @param filePath 要写入的文件路径
      * @return 写入结果
+     * @throws Exception IO异常
      */
-    public static boolean writeWithCover(String content, String filePath) {
+    public static boolean writeWithCover(String content, String filePath) throws Exception {
         return writeContent(content, filePath, false);
     }
 
@@ -251,31 +234,28 @@ public class FileUtils {
      * @param content 要写入的内容
      * @param filePath 要写入的文件路径
      * @return 写入结果
+     * @throws Exception IO异常
      */
-    public static boolean writeWithAppend(String content, String filePath) {
+    public static boolean writeWithAppend(String content, String filePath) throws Exception {
         return writeContent(content, filePath, true);
     }
 
-    private static boolean writeContent(String content, String filePath, boolean cover) {
-        boolean flag = false;
+    private static boolean writeContent(String content, String filePath, boolean cover) throws Exception {
         OutputStream os = null;
         PrintStream ps = null;
         try {
             File file = new File(filePath);
             if (!file.exists()) {
                 log.info("文件路径【{}】不存在，开始新建", filePath);
-                createFile(file);
+                file = createFile(filePath);
             }
             os = new FileOutputStream(file, cover);
             ps = new PrintStream(os);
             ps.println(content);
-            flag = true;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            return true;
         } finally {
             IOUtils.close(ps);
             IOUtils.close(os);
         }
-        return flag;
     }
 }
