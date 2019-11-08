@@ -237,31 +237,45 @@ public class FileUtils {
     }
 
     /**
-     * 将内容写入指定文件，文件不存在则新建，存在则续写内容，不覆盖源文件内容
+     * 将内容写入指定文件，文件不存在则新建（覆盖原内容）
      * @param content 要写入的内容
      * @param filePath 要写入的文件路径
      * @return 写入结果
      */
-    public static boolean writeContentToFile(String content, String filePath) {
+    public static boolean writeWithCover(String content, String filePath) {
+        return writeContent(content, filePath, false);
+    }
+
+    /**
+     * 将内容写入指定文件，文件不存在则新建（不覆盖原内容）
+     * @param content 要写入的内容
+     * @param filePath 要写入的文件路径
+     * @return 写入结果
+     */
+    public static boolean writeWithAppend(String content, String filePath) {
+        return writeContent(content, filePath, true);
+    }
+
+    private static boolean writeContent(String content, String filePath, boolean cover) {
+        boolean flag = false;
+        OutputStream os = null;
+        PrintStream ps = null;
         try {
             File file = new File(filePath);
             if (!file.exists()) {
                 log.info("文件路径【{}】不存在，开始新建", filePath);
-                boolean result = createFile(file);
-                if (!result) {
-                    log.warn("新建文件【{}】失败！停止写入文件", filePath);
-                    return false;
-                }
+                createFile(file);
             }
-            OutputStream os = new FileOutputStream(file, true);
-            PrintStream ps = new PrintStream(os);
+            os = new FileOutputStream(file, cover);
+            ps = new PrintStream(os);
             ps.println(content);
-            ps.close();
-            os.close();
-            return true;
+            flag = true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return false;
+        } finally {
+            IOUtils.close(ps);
+            IOUtils.close(os);
         }
+        return flag;
     }
 }
