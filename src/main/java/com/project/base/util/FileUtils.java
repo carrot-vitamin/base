@@ -237,7 +237,7 @@ public class FileUtils {
     }
 
     /**
-     * 将内容写入指定文件，文件不存在则新建
+     * 将内容写入指定文件，文件不存在则新建，存在则续写内容，不覆盖源文件内容
      * @param content 要写入的内容
      * @param filePath 要写入的文件路径
      * @return 写入结果
@@ -245,17 +245,20 @@ public class FileUtils {
     public static boolean writeContentToFile(String content, String filePath) {
         try {
             File file = new File(filePath);
-            boolean result = createFile(file);
-            if (!result) {
-                return false;
-            } else {
-                OutputStream os = new FileOutputStream(file);
-                PrintStream ps = new PrintStream(os);
-                ps.println(content);
-                ps.close();
-                os.close();
-                return true;
+            if (!file.exists()) {
+                log.info("文件路径【{}】不存在，开始新建", filePath);
+                boolean result = createFile(file);
+                if (!result) {
+                    log.warn("新建文件【{}】失败！停止写入文件", filePath);
+                    return false;
+                }
             }
+            OutputStream os = new FileOutputStream(file, true);
+            PrintStream ps = new PrintStream(os);
+            ps.println(content);
+            ps.close();
+            os.close();
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
