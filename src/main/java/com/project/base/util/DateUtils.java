@@ -18,6 +18,12 @@ public class DateUtils {
 
     private static DateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * 计算两时间间隔
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return 时间间隔，单位：天
+     */
     public static long getInterval(Date startDate, Date endDate) {
         try {
             startDate = defaultDateFormat.parse(defaultDateFormat.format(startDate));
