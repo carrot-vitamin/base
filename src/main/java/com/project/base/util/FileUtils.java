@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 /**
- * @author ex-yinshaobo001
+ * @author Shaobo Yin
  * 2018/12/28 10:06 AM
  */
 public class FileUtils {
@@ -46,7 +46,6 @@ public class FileUtils {
             inputStream = classLoader.getResourceAsStream(propertiesName);
             properties = new Properties();
             properties.load(inputStream);
-            IOUtils.close(inputStream);
         } finally {
             IOUtils.close(inputStream);
         }
