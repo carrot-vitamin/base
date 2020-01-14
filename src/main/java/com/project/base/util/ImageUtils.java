@@ -1,8 +1,6 @@
 package com.project.base.util;
 
 import com.alibaba.fastjson.util.IOUtils;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
- * @author Shaobo Yin
- * @date 2019/12/12
+ * @author Shaobo Yin at 2019/12/12
  */
 public class ImageUtils {
 
@@ -49,7 +46,7 @@ public class ImageUtils {
             Image src = ImageIO.read(srcfile);
 
             // 构造一个类型为预定义图像类型之一的 BufferedImage
-            BufferedImage tag = new BufferedImage((int) widthDest, (int) heightDest, BufferedImage.TYPE_INT_RGB);
+            BufferedImage tag = new BufferedImage(widthDest, heightDest, BufferedImage.TYPE_INT_RGB);
 
             //绘制图像  getScaledInstance表示创建此图像的缩放版本，返回一个新的缩放版本Image,按指定的width,height呈现图像
             //Image.SCALE_SMOOTH,选择图像平滑度比缩放速度具有更高优先级的图像缩放算法。
@@ -58,8 +55,10 @@ public class ImageUtils {
             //创建文件输出流
             out = new FileOutputStream(imgDest);
             //将图片按JPEG压缩，保存到out中
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-            encoder.encode(tag);
+            ImageIO.write(tag, "jpg", out);
+
+            out.flush();
+            tag.flush();
         } finally {
             IOUtils.close(out);
         }
