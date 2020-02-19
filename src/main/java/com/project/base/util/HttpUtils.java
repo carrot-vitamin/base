@@ -1,22 +1,13 @@
 package com.project.base.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import org.apache.http.*;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.File;
@@ -24,142 +15,16 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * @author yinshaobo
+ */
 public class HttpUtils {
-
-    private static CloseableHttpClient httpClient;
-
-    private static RequestConfig config;
-
-    /**
-     * 设置链接超时时间为60s
-     */
-    private static final int TIME_OUT = 60 * 1000;
-
-    static {
-        httpClient = HttpClients.createDefault();
-        config = RequestConfig.custom()
-                .setConnectionRequestTimeout(TIME_OUT)
-                .setConnectTimeout(TIME_OUT)
-                .setSocketTimeout(TIME_OUT).build();
-    }
-
-    public static String get(String url) throws Exception {
-        return get(url, null, null);
-    }
-
-    public static String get(String url, Map<String, Object> params) throws Exception {
-        return get(url, params, null);
-    }
-
-    public static String get(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        URIBuilder uriBuilder = new URIBuilder(url);
-        if (params != null) {
-            // 遍历map,拼接请求参数
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                uriBuilder.setParameter(entry.getKey(), entry.getValue().toString());
-            }
-        }
-
-        // 声明 http get 请求
-        HttpGet httpGet = new HttpGet(uriBuilder.toString());
-        // 装载配置信息
-        httpGet.setConfig(config);
-
-        if (headers != null) {
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                httpGet.addHeader(entry.getKey(), entry.getValue());
-            }
-        }
-        // 发起请求
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        return getResult(response);
-    }
-
-    public static String post(String url) throws Exception {
-        return post(url, null);
-    }
-
-    /**
-     * form表单提交
-     * @param url 请求url
-     * @param params 请求map参数
-     * @return 相应数据
-     * @throws Exception exception
-     */
-    public static String post(String url, Map<String, Object> params) throws Exception {
-        HttpResponse response = getHttpResponseByPost(url, params, null);
-        return getResult(response);
-    }
-
-    /**
-     * form表单提交
-     * @param url 请求url
-     * @param params 请求参数
-     * @param headers 请求头信息
-     * @return 返回响应字符串
-     * @throws Exception Exception
-     */
-    public static String post(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        HttpResponse response = getHttpResponseByPost(url, params, headers);
-        return getResult(response);
-    }
-
-    /**
-     * form表单方式提交对象
-     * @param url 请求URL地址
-     * @param object 要提交的参数对象
-     * @return 响应结果
-     * @throws Exception Exception
-     */
-    public static String post(String url, Object object) throws Exception {
-        return post(url, JSONObject.parseObject(JSON.toJSONString(object), new TypeReference<Map<String, Object>>() {}));
-    }
-
-    public static String postJson(String url, String json) throws Exception {
-        return getPostJsonResponse(url, json, null);
-    }
-
-    public static String postJson(String url, String json, Map<String, String> headers) throws Exception {
-        return getPostJsonResponse(url, json, headers);
-    }
-
-    public static String postJson(String url, Map<String, Object> params) throws Exception {
-        return getPostJsonResponse(url, params, null);
-    }
-
-    public static String postJson(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        return getPostJsonResponse(url, params, headers);
-    }
-
-    private static String getPostJsonResponse(String url, Object object, Map<String, String> headers) throws Exception {
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setConfig(config);
-        String json;
-        if (object instanceof String) {
-            json = (String) object;
-        } else {
-            json = JSON.toJSONString(object);
-        }
-        StringEntity entity = new StringEntity(json, Charset.forName("utf-8"));
-        if (headers != null) {
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                httpPost.addHeader(entry.getKey(), entry.getValue());
-            }
-        }
-        entity.setContentType("application/json");
-        httpPost.setEntity(entity);
-        // 发起请求
-        CloseableHttpResponse response = httpClient.execute(httpPost);
-        return getResult(response);
-    }
 
     public static String postBinary(String url, Map<String, Object> params) throws Exception {
         HttpPost httpPost = new HttpPost(url);
-        httpPost.setConfig(config);
+        httpPost.setConfig(HttpExecuteUtils.getConfig());
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
         multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -187,7 +52,7 @@ public class HttpUtils {
         httpPost.addHeader("Accept", "*/*");
         httpPost.addHeader("Content-Type", "multipart/form-data;boundary=" + httpEntity.getContentLength());
         httpPost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
-        CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
+        HttpResponse httpResponse = HttpExecuteUtils.getHttpClient().execute(httpPost);
         return getResult(httpResponse);
     }
 
@@ -208,8 +73,15 @@ public class HttpUtils {
         throw new Exception("HttpUtils.getInputStreamByGet error");
     }
 
+    /**
+     * form表单方式获取响应数据流
+     * @param url url
+     * @param params params
+     * @return InputStream
+     * @throws Exception e
+     */
     public static InputStream getInputStreamByPost(String url, Map<String, Object> params) throws Exception {
-        return getHttpResponseByPost(url, params, null).getEntity().getContent();
+        return HttpExecuteUtils.executeReturnResponse(url, HttpExecuteUtils.MethodEnum.POST, HttpExecuteUtils.TypeEnum.FORM, params, null).getEntity().getContent();
     }
 
     private static boolean responseOK(HttpResponse response) {
@@ -221,32 +93,6 @@ public class HttpUtils {
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         }
         throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
-    }
-
-    private static HttpResponse getHttpResponseByPost(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        // 声明httpPost请求
-        HttpPost httpPost = new HttpPost(url);
-        // 加入配置信息
-        httpPost.setConfig(config);
-        // 判断map是否为空，不为空则进行遍历，封装form表单对象
-        if (params != null) {
-            List<NameValuePair> list = new ArrayList<>();
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                list.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
-            }
-            // 构造from表单对象
-            UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(list, "UTF-8");
-            // 把表单放到post里
-            httpPost.setEntity(urlEncodedFormEntity);
-        }
-        if (headers != null) {
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                httpPost.addHeader(entry.getKey(), entry.getValue());
-            }
-
-        }
-        // 发起请求
-        return httpClient.execute(httpPost);
     }
 
     /**
