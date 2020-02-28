@@ -1,5 +1,6 @@
 package com.project.base.util;
 
+import com.project.base.model.CheckException;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -89,10 +90,11 @@ public class HttpUtils {
     }
 
     private static String getResult(HttpResponse response) throws Exception {
+        String data = EntityUtils.toString(response.getEntity(), "UTF-8");
         if (responseOK(response)) {
-            return EntityUtils.toString(response.getEntity(), "UTF-8");
+            return data;
         }
-        throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
+        throw new CheckException(String.valueOf(response.getStatusLine().getStatusCode()), data);
     }
 
     /**

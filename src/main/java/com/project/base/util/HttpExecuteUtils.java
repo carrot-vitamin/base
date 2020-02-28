@@ -1,6 +1,7 @@
 package com.project.base.util;
 
 import com.alibaba.fastjson.JSON;
+import com.project.base.model.CheckException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -67,10 +68,11 @@ public class HttpExecuteUtils {
      */
     public static String execute(String url, MethodEnum method, TypeEnum type, Map<String, Object> params, Map<String, String> headers) throws Exception {
         HttpResponse response = executeReturnResponse(url, method, type, params, headers);
+        String data = EntityUtils.toString(response.getEntity(), "UTF-8");
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            return EntityUtils.toString(response.getEntity(), "UTF-8");
+            return data;
         }
-        throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
+        throw new CheckException(String.valueOf(response.getStatusLine().getStatusCode()), data);
     }
 
     public static HttpResponse executeReturnResponse(String url, MethodEnum method, TypeEnum type, Map<String, Object> params, Map<String, String> headers) throws Exception {
