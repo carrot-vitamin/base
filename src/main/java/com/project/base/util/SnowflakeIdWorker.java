@@ -40,7 +40,7 @@ public class SnowflakeIdWorker {
     private final long workerIdShift = sequenceBits;
 
     /** 数据标识id向左移17位(12+5) */
-    private final long datacenterIdShift = sequenceBits + workerIdBits;
+    private final long dataCenterIdShift = sequenceBits + workerIdBits;
 
     /** 时间截向左移22位(5+5+12) */
     private final long timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
@@ -71,7 +71,7 @@ public class SnowflakeIdWorker {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
         if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
-            throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDataCenterId));
+            throw new IllegalArgumentException(String.format("dataCenter Id can't be greater than %d or less than 0", maxDataCenterId));
         }
         this.workerId = workerId;
         this.dataCenterId = dataCenterId;
@@ -109,9 +109,9 @@ public class SnowflakeIdWorker {
         lastTimestamp = timestamp;
 
         //移位并通过或运算拼到一起组成64位的ID
-        return ((timestamp - twepoch) << timestampLeftShift) //
-                | (dataCenterId << datacenterIdShift) //
-                | (workerId << workerIdShift) //
+        return ((timestamp - twepoch) << timestampLeftShift)
+                | (dataCenterId << dataCenterIdShift)
+                | (workerId << workerIdShift)
                 | sequence;
     }
 
