@@ -8,8 +8,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
 /**
- * @author za-yinshaobo
- * @date 2020/5/27 22:12
+ * @author za-yinshaobo at 2020/5/27 22:12
  */
 public class SystemUtils {
 
