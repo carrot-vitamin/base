@@ -15,9 +15,9 @@ import java.util.Collection;
  * @author yinshaobo at 2020/6/24 10:06
  * 校验数据，如非空等
  */
-public class ValidUtils {
+public class ValidFieldUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidFieldUtils.class);
 
     public static String validObject(Object object) {
         String message = null;
