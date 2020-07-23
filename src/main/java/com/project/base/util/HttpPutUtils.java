@@ -1,8 +1,7 @@
 package com.project.base.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class HttpPutUtils {
      * @throws Exception e
      */
     public static String putForm(String url, Object object) throws Exception {
-        return putForm(url, JSONObject.parseObject(JSON.toJSONString(object), new TypeReference<Map<String, Object>>() {}));
+        return putForm(url, ObjectUtils.convertObject2Map(object));
     }
 
     /********************************** PUT JSON ***************************************************/
@@ -90,7 +89,7 @@ public class HttpPutUtils {
      * @throws Exception e
      */
     public static String putJson(String url, Object object) throws Exception {
-        return putJson(url, JSONObject.parseObject(JSON.toJSONString(object), new TypeReference<Map<String, Object>>() {}));
+        return putJson(url, ObjectUtils.convertObject2Map(object));
     }
 
     /**
@@ -113,7 +112,7 @@ public class HttpPutUtils {
      * @throws Exception e
      */
     public static String putJson(String url, String json, Map<String, String> headers) throws Exception {
-        Map<String, Object> params = JSONObject.parseObject(json, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> params = JsonObjectUtils.parseObject(json, new TypeReference<Map<String, Object>>() {});
         return putJson(url, params, headers);
     }
 }
