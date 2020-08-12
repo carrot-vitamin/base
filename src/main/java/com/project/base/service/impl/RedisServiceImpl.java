@@ -4,7 +4,7 @@ package com.project.base.service.impl;
 import com.project.base.model.Constants;
 import com.project.base.model.RedisClient;
 import com.project.base.service.IRedisService;
-import com.project.base.util.SerializationUtils;
+import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;

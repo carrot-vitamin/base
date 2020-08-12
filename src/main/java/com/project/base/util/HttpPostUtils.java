@@ -1,6 +1,7 @@
 package com.project.base.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import java.util.Map;
 
@@ -111,7 +112,7 @@ public class HttpPostUtils {
      * @throws Exception e
      */
     public static String postJson(String url, String json, Map<String, String> headers) throws Exception {
-        Map<String, Object> params = JsonObjectUtils.parseObject(json, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> params = JSON.parseObject(json, new TypeReference<Map<String, Object>>() {});
         return postJson(url, params, headers);
     }
 }

@@ -1,6 +1,8 @@
 package com.project.base.util;
 
 
+import com.alibaba.fastjson.util.IOUtils;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

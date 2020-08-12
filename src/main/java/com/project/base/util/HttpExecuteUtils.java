@@ -1,5 +1,6 @@
 package com.project.base.util;
 
+import com.alibaba.fastjson.JSON;
 import com.project.base.model.CheckException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -97,7 +98,7 @@ public class HttpExecuteUtils {
                 }
             } else {
                 //JSON提交
-                StringEntity entity = new StringEntity(JsonObjectUtils.toJsonString(params), StandardCharsets.UTF_8);
+                StringEntity entity = new StringEntity(JSON.toJSONString(params), StandardCharsets.UTF_8);
                 entity.setContentType("application/json");
                 httpEntityEnclosingRequestBase.setEntity(entity);
             }

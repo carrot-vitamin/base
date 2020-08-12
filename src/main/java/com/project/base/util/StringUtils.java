@@ -61,4 +61,8 @@ public class StringUtils {
     public static boolean isNotEmpty(CharSequence cs) {
         return !isEmpty(cs);
     }
+
+    public static boolean hasLength(String str) {
+        return (str != null && !str.isEmpty());
+    }
 }
