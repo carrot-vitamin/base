@@ -2,7 +2,7 @@ package com.project.base.service.impl;
 
 import com.project.base.service.IEmailService;
 import com.project.base.util.RSAUtils;
-import com.project.base.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
