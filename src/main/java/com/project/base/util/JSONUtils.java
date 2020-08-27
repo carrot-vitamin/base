@@ -1,6 +1,7 @@
 package com.project.base.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ public class JSONUtils {
         if (o == null) {
             return "{}";
         }
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(o);
         } catch (JsonProcessingException e) {
@@ -27,9 +28,17 @@ public class JSONUtils {
     }
 
     public static <T> T toJava(String json, Class<T> tClass) {
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, tClass);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T toJava(String json, TypeReference<T> valueTypeRef) {
+        try {
+            return new ObjectMapper().readValue(json, valueTypeRef);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
