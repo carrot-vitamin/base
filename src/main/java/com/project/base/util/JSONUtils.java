@@ -22,7 +22,16 @@ public class JSONUtils {
             return mapper.writeValueAsString(o);
         } catch (JsonProcessingException e) {
             LOGGER.error(e.getMessage(), e);
-            return "{}";
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T toJava(String json, Class<T> tClass) {
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+            return mapper.readValue(json, tClass);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 }
