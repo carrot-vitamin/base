@@ -1,6 +1,6 @@
 package com.project.base.util;
 
-import com.project.base.model.CheckException;
+import com.project.base.model.exception.CheckException;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

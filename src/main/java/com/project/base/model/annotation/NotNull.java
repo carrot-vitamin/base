@@ -1,15 +1,15 @@
-package com.project.base.annotation;
+package com.project.base.model.annotation;
 
 import java.lang.annotation.*;
 
 /**
  * @author yinshaobo at 2020/6/24 9:57
- * 校验非空集合
+ * 校验非空属性
  */
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NotEmpty {
+public @interface NotNull {
 
-    String message() default "Not Allowed Empty";
+    String message() default "Not Allowed Null";
 }

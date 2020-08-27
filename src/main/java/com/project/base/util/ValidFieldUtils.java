@@ -1,10 +1,9 @@
 package com.project.base.util;
 
-import com.project.base.annotation.NotBlank;
-import com.project.base.annotation.NotEmpty;
-import com.project.base.annotation.NotNull;
-import com.project.base.annotation.NotNullObject;
-import org.apache.commons.lang3.StringUtils;
+import com.project.base.model.annotation.NotBlank;
+import com.project.base.model.annotation.NotEmpty;
+import com.project.base.model.annotation.NotNull;
+import com.project.base.model.annotation.NotNullObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

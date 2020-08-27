@@ -1,21 +1,24 @@
 package com.project.base.util;
 
-import com.alibaba.fastjson.JSON;
-import com.project.base.model.CheckException;
+import com.project.base.model.exception.CheckException;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +32,16 @@ public class HttpExecuteUtils {
     private HttpExecuteUtils() {}
 
     protected enum MethodEnum {
+        /**
+         *
+         */
         GET, POST, PUT, DELETE
     }
 
     protected enum TypeEnum {
+        /**
+         *
+         */
         FORM, JSON
     }
 
@@ -75,46 +84,65 @@ public class HttpExecuteUtils {
         throw new CheckException(String.valueOf(response.getStatusLine().getStatusCode()), data);
     }
 
-    public static HttpResponse executeReturnResponse(String url, MethodEnum method, TypeEnum type, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        HttpRequestBase requestBase;
-        if (MethodEnum.GET == method || MethodEnum.DELETE == method) {
-            URIBuilder uriBuilder = uriBuilder(url, params);
-            url = uriBuilder.toString();
-            requestBase = MethodEnum.GET == method ? new HttpGet(url) : new HttpDelete(url);
-        } else {
-            HttpEntityEnclosingRequestBase httpEntityEnclosingRequestBase = MethodEnum.POST == method ? new HttpPost(url) : new HttpPut(url);
-            if (TypeEnum.FORM == type) {
-                //form表单提交
-                //封装form表单对象
-                if (params != null && !params.isEmpty()) {
-                    List<NameValuePair> list = new ArrayList<>();
-                    for (Map.Entry<String, Object> entry : params.entrySet()) {
-                        list.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
-                    }
-                    // 构造from表单对象
-                    UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(list, "UTF-8");
-                    // 把表单放到post里
-                    httpEntityEnclosingRequestBase.setEntity(urlEncodedFormEntity);
-                }
-            } else {
-                //JSON提交
-                StringEntity entity = new StringEntity(JSON.toJSONString(params), StandardCharsets.UTF_8);
-                entity.setContentType("application/json");
-                httpEntityEnclosingRequestBase.setEntity(entity);
+    public static HttpResponse executeReturnResponse(final String url, MethodEnum method, TypeEnum type,
+                                                     Map<String, Object> bodyParams, Map<String, String> headers) throws Exception {
+        HttpEntityEnclosingRequestBase requestBase = new HttpEntityEnclosingRequestBase() {
+            @Override
+            public String getMethod() {
+                return method.toString().toLowerCase();
             }
 
-            requestBase = httpEntityEnclosingRequestBase;
-        }
+            @Override
+            public URI getURI() {
+                try {
+                    boolean uriParam = (MethodEnum.GET == method || MethodEnum.DELETE == method)
+                            && (bodyParams != null && !bodyParams.isEmpty());
+                    if (uriParam) {
+                        return URI.create(uriBuilder(url, bodyParams).toString());
+                    }
+                    return URI.create(url);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
-        // 装载配置信息
-        requestBase.setConfig(config);
+            @Override
+            public RequestConfig getConfig() {
+                return config;
+            }
+
+            @Override
+            public HttpEntity getEntity() {
+                if (bodyParams != null && !bodyParams.isEmpty()) {
+                    if (TypeEnum.FORM == type) {
+                        //form表单请求
+                        List<NameValuePair> list = new ArrayList<>();
+                        bodyParams.forEach((k, v) -> list.add(new BasicNameValuePair(k, v.toString())));
+
+                        // 构造from表单对象
+                        try {
+                            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, "UTF-8");
+                            entity.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
+                            return entity;
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if (TypeEnum.JSON == type) {
+                        //json请求
+                        StringEntity entity = new StringEntity(JSONUtils.toJson(bodyParams), StandardCharsets.UTF_8);
+                        entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+                        return entity;
+                    }
+                }
+
+                return super.getEntity();
+            }
+        };
 
         if (headers != null && !headers.isEmpty()) {
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                requestBase.addHeader(entry.getKey(), entry.getValue());
-            }
+            headers.forEach(requestBase::setHeader);
         }
-        // 发起请求
+
         return httpClient.execute(requestBase);
     }
 

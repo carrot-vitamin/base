@@ -1,6 +1,6 @@
 package com.project.base.util;
 
-import com.project.base.model.DateFormatEnum;
+import com.project.base.model.enums.DateFormatEnum;
 
 import java.util.Date;
 import java.util.UUID;

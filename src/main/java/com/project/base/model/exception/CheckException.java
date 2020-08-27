@@ -1,4 +1,4 @@
-package com.project.base.model;
+package com.project.base.model.exception;
 
 /**
  * @author ex-yinshaobo001 at 2020/1/19 18:11

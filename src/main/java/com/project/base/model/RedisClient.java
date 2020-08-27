@@ -1,6 +1,6 @@
 package com.project.base.model;
 
-import org.apache.commons.lang3.StringUtils;
+import com.project.base.util.StringUtils;
 import redis.clients.jedis.*;
 
 import java.util.ArrayList;

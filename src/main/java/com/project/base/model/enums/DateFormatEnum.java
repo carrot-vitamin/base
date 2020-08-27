@@ -1,4 +1,4 @@
-package com.project.base.model;
+package com.project.base.model.enums;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

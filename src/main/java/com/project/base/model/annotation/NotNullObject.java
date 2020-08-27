@@ -1,4 +1,4 @@
-package com.project.base.annotation;
+package com.project.base.model.annotation;
 
 import java.lang.annotation.*;
 
