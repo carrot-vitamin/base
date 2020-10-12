@@ -27,4 +27,6 @@ servers模块中添加
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCQ3Vxu16+T6XXUVv9NJsALKTQkoywGR7bru4M17QCWsn/TBb7uEQNgChgafNwWNz5nYV0ierg4p9EAx6UvJYLwvP4tUg/7STOWDbTWmer2hl6AzkDKiaqbxAOr7PNc3lGr/Vd0Q/FgJ5FoJvyjdTgel4f15Z64c+ly4cXn9Uv2iQIDAQAB
 
 如果idea mvn install时控制台中文乱码或提示 'gpg.exe不是内部或外部命令...' 导致打包失败时按如下进行配置：
+> -Dfile.encoding=GB2312 <br/>
+> gpg.skip=true
 ![alt maven打包配置](config.png)
