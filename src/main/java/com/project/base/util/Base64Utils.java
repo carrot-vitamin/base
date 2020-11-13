@@ -1,11 +1,11 @@
 package com.project.base.util;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Base64;
 
 /**
  * @author yinshaobo
@@ -84,7 +84,7 @@ public class Base64Utils {
      * @return 编码后的字符串
      */
     public static String encode(String string) {
-        return Base64.encodeBase64URLSafeString(string.getBytes(Charset.defaultCharset()));
+        return Base64.getEncoder().encodeToString(string.getBytes(Charset.defaultCharset()));
     }
 
     /**
@@ -94,7 +94,7 @@ public class Base64Utils {
      * @return 解码后的字符串
      */
     public static String decode(String string) {
-        return new String(Base64.decodeBase64(string), Charset.defaultCharset());
+        return new String(Base64.getDecoder().decode(string), Charset.defaultCharset());
     }
 
     /**
@@ -116,7 +116,7 @@ public class Base64Utils {
             }
             baos.flush();
             buffer = baos.toByteArray();
-            base64 = Base64.encodeBase64String(buffer);
+            base64 = Base64.getEncoder().encodeToString(buffer);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         } finally {

@@ -1,6 +1,5 @@
 package com.project.base.util;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,7 +184,7 @@ public class FileUtils {
         assert base64 != null;
         InputStream inputStream = null;
         try {
-            byte[] b = Base64.;
+            byte[] b = Base64.getDecoder().decode(base64);
             inputStream = new ByteArrayInputStream(b);
             size = inputStream.available();
         } finally {
