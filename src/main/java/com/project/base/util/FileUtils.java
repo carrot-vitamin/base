@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Base64;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -184,7 +185,7 @@ public class FileUtils {
         assert base64 != null;
         InputStream inputStream = null;
         try {
-            byte[] b = Base64.decodeBase64(base64);
+            byte[] b = Base64.;
             inputStream = new ByteArrayInputStream(b);
             size = inputStream.available();
         } finally {

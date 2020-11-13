@@ -50,6 +50,18 @@ public class StringUtils {
         return true;
     }
 
+    public static boolean isAllBlank(final CharSequence... css) {
+        if (css == null || css.length == 0) {
+            return true;
+        }
+        for (final CharSequence cs : css) {
+            if (isNotBlank(cs)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isNotBlank(final CharSequence cs) {
         return !isBlank(cs);
     }

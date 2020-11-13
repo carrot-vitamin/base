@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.project.base.model;
+package com.project.base.model.exception;
 
 /**
  * <p>Exception thrown when the Serialization process fails.</p>

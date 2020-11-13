@@ -1,80 +1,112 @@
 package com.project.base.util;
 
 
+import java.net.HttpURLConnection;
 import java.util.Map;
 
 /**
  * @author yinshaobo
  */
-public class HttpPostUtils {
+public class HttpPostUtils extends AbsHttp {
+
+    public static String post(String url) throws Exception {
+        HttpURLConnection conn = null;
+
+        String res;
+
+        try{
+            conn = buildConnection(url, "POST", null);
+            res = readResponse(conn, null, null);
+
+        }finally{
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return res;
+    }
 
     /********************************** POST FORM ***************************************************/
 
     /**
-     * post
-     * @param url url
-     * @return {@link java.lang.String}
+     * @param url 请求地址
+     * @param bodyParams 请求body数据 k1=v1&k2=v2... ...
+     * @return response info
      * @throws Exception e
      */
-    public static String postForm(String url) throws Exception {
-        return postForm(url, null);
+    public static String postForm(String url, String bodyParams) throws Exception {
+        return postForm(url, bodyParams, null);
     }
 
     /**
-     * post form
-     * @param url url
-     * @param params {@link java.util.Map}
-     * @return {@link java.lang.String}
+     * @param url 请求地址
+     * @param bodyParams 请求body数据 k1=v1&k2=v2... ...
+     * @param headers 请求头信息
+     * @return response info
      * @throws Exception e
      */
-    public static String postForm(String url, Map<String, Object> params) throws Exception {
-        return postForm(url, params, null);
-    }
+    public static String postForm(String url, String bodyParams, Map<String, String> headers) throws Exception {
 
-    /**
-     * post form
-     * @param url url
-     * @param params {@link java.util.Map}
-     * @param headers {@link java.util.Map}
-     * @return {@link java.lang.String}
-     * @throws Exception e
-     */
-    public static String postForm(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        return HttpExecuteUtils.execute(url, HttpExecuteUtils.MethodEnum.POST, HttpExecuteUtils.TypeEnum.FORM, params, headers);
+        if (StringUtils.isBlank(bodyParams)) {
+            throw new RuntimeException("request body is empty!");
+        }
+
+        HttpURLConnection conn = null;
+
+        String res;
+
+        try{
+            conn = buildConnection(url, "POST", headers);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+            res = readResponse(conn, bodyParams, null);
+
+        }finally{
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return res;
     }
 
     /********************************** POST JSON ***************************************************/
 
     /**
-     *
-     * @param url url
-     * @return {@link java.lang.String}
+     * @param url 请求地址
+     * @param json 请求json数据
+     * @return response info
      * @throws Exception e
      */
-    public static String postJson(String url) throws Exception {
-        return postJson(url, null);
+    public static String postJson(String url, String json) throws Exception {
+        return postJson(url, json, null);
     }
 
     /**
-     * post json
-     * @param url url
-     * @param params {@link java.util.Map}
-     * @return {@link java.lang.String}
+     * @param url 请求地址
+     * @param json 请求json数据
+     * @param headers 请求头信息
+     * @return response info
      * @throws Exception e
      */
-    public static String postJson(String url, Map<String, Object> params) throws Exception {
-        return postJson(url, params, null);
-    }
+    public static String postJson(String url, String json, Map<String, String> headers) throws Exception {
 
-    /**
-     * post json
-     * @param url url
-     * @param params {@link java.util.Map}
-     * @param headers {@link java.util.Map}
-     * @return {@link java.lang.String}
-     * @throws Exception e
-     */
-    public static String postJson(String url, Map<String, Object> params, Map<String, String> headers) throws Exception {
-        return HttpExecuteUtils.execute(url, HttpExecuteUtils.MethodEnum.POST, HttpExecuteUtils.TypeEnum.JSON, params, headers);
+        if (StringUtils.isBlank(json)) {
+            throw new RuntimeException("json body is empty!");
+        }
+
+        HttpURLConnection conn = null;
+
+        String res;
+
+        try{
+            conn = buildConnection(url, "POST", headers);
+            conn.setRequestProperty("Content-Type","application/json;charset=utf-8");
+            res = readResponse(conn, json, null);
+
+        }finally{
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return res;
     }
 }

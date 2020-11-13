@@ -16,7 +16,7 @@
  */
 package com.project.base.util;
 
-import com.project.base.model.SerializationException;
+import com.project.base.model.exception.SerializationException;
 
 import java.io.*;
 import java.util.HashMap;

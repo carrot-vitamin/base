@@ -2,9 +2,9 @@ package com.project.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.project.base.util.JSONUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,18 +14,16 @@ public class MainTest {
     private String name;
 
     public static void main(String[] args) throws Exception {
-        MainTest m = new MainTest();
-        m.name = "abc";
-        String s = JSONUtils.toJson(m);
-        System.out.println(s);
+        String url = "http://localhost:8080/testGet";
+        Map<String, Object> map = new HashMap(2);
+        map.put("id", 1L);
+        map.put("name", "张三");
+        map.put("age", 18);
+        String json = JSONUtils.toJson(map);
 
-
-        MainTest t = JSONUtils.toJava("{\"test0012\":\"abc\"}", MainTest.class);
-        System.out.println(t.name);
-
-        Map<String, Object> map = JSONUtils.toJava("{\"test0012\":\"abc\"}", new TypeReference<Map<String, Object>>() {
-        });
-        System.out.println(map);
+        Map<String, String> headers = new HashMap<>(2);
+        headers.put("h1", "v1");
+        headers.put("h2", "v2");
     }
 
 
