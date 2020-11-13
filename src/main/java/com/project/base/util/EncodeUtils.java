@@ -14,6 +14,7 @@ public class EncodeUtils {
 
     /**
      * unicode转字符串
+     *
      * @param str unicode编码字符串
      * @return utf-8字符串
      */

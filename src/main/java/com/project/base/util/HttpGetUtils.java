@@ -17,11 +17,11 @@ public class HttpGetUtils extends AbsHttp {
 
         String res;
 
-        try{
+        try {
             conn = buildConnection(url, "GET", headers);
             res = readResponse(conn, null, null);
 
-        }finally{
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }

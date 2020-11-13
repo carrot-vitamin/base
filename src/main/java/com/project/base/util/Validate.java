@@ -21,9 +21,9 @@ public class Validate {
      * Validate.isTrue(i &gt;= min &amp;&amp; i &lt;= max, "The value must be between &#37;d and &#37;d", min, max);
      * Validate.isTrue(myObject.isOk(), "The object is not okay");</pre>
      *
-     * @param expression  the boolean expression to check
-     * @param message  the {@link String#format(String, Object...)} exception message if invalid, not null
-     * @param values  the optional values for the formatted exception message, null array not recommended
+     * @param expression the boolean expression to check
+     * @param message    the {@link String#format(String, Object...)} exception message if invalid, not null
+     * @param values     the optional values for the formatted exception message, null array not recommended
      * @throws IllegalArgumentException if expression is {@code false}
      * @see #isTrue(boolean)
      * @see #isTrue(boolean, String, long)
@@ -48,7 +48,7 @@ public class Validate {
      * <p>The message of the exception is &quot;The validated expression is
      * false&quot;.</p>
      *
-     * @param expression  the boolean expression to check
+     * @param expression the boolean expression to check
      * @throws IllegalArgumentException if expression is {@code false}
      * @see #isTrue(boolean, String, long)
      * @see #isTrue(boolean, String, double)
@@ -71,9 +71,9 @@ public class Validate {
      * <p>For performance reasons, the long value is passed as a separate parameter and
      * appended to the exception message only in the case of an error.</p>
      *
-     * @param expression  the boolean expression to check
-     * @param message  the {@link String#format(String, Object...)} exception message if invalid, not null
-     * @param value  the value to append to the message when invalid
+     * @param expression the boolean expression to check
+     * @param message    the {@link String#format(String, Object...)} exception message if invalid, not null
+     * @param value      the value to append to the message when invalid
      * @throws IllegalArgumentException if expression is {@code false}
      * @see #isTrue(boolean)
      * @see #isTrue(boolean, String, double)
@@ -96,9 +96,9 @@ public class Validate {
      * <p>For performance reasons, the double value is passed as a separate parameter and
      * appended to the exception message only in the case of an error.</p>
      *
-     * @param expression  the boolean expression to check
-     * @param message  the {@link String#format(String, Object...)} exception message if invalid, not null
-     * @param value  the value to append to the message when invalid
+     * @param expression the boolean expression to check
+     * @param message    the {@link String#format(String, Object...)} exception message if invalid, not null
+     * @param value      the value to append to the message when invalid
      * @throws IllegalArgumentException if expression is {@code false}
      * @see #isTrue(boolean)
      * @see #isTrue(boolean, String, long)
@@ -116,9 +116,9 @@ public class Validate {
      *
      * <pre>Validate.notNull(myObject, "The object must not be null");</pre>
      *
-     * @param <T> the object type
+     * @param <T>     the object type
      * @param object  the object to check
-     * @param message  the {@link String#format(String, Object...)} exception message if invalid, not null
+     * @param message the {@link String#format(String, Object...)} exception message if invalid, not null
      * @param values  the optional values for the formatted exception message
      * @return the validated object (never {@code null} for method chaining)
      * @throws NullPointerException if the object is {@code null}
@@ -137,8 +137,8 @@ public class Validate {
      * <p>The message of the exception is &quot;The validated object is
      * null&quot;.</p>
      *
-     * @param <T> the object type
-     * @param object  the object to check
+     * @param <T>    the object type
+     * @param object the object to check
      * @return the validated object (never {@code null} for method chaining)
      * @throws NullPointerException if the object is {@code null}
      * @see #notNull(Object, String, Object...)

@@ -14,11 +14,11 @@ public class HttpPostUtils extends AbsHttp {
 
         String res;
 
-        try{
+        try {
             conn = buildConnection(url, "POST", null);
             res = readResponse(conn, null, null);
 
-        }finally{
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }
@@ -29,7 +29,7 @@ public class HttpPostUtils extends AbsHttp {
     /********************************** POST FORM ***************************************************/
 
     /**
-     * @param url 请求地址
+     * @param url        请求地址
      * @param bodyParams 请求body数据 k1=v1&k2=v2... ...
      * @return response info
      * @throws Exception e
@@ -39,9 +39,9 @@ public class HttpPostUtils extends AbsHttp {
     }
 
     /**
-     * @param url 请求地址
+     * @param url        请求地址
      * @param bodyParams 请求body数据 k1=v1&k2=v2... ...
-     * @param headers 请求头信息
+     * @param headers    请求头信息
      * @return response info
      * @throws Exception e
      */
@@ -55,12 +55,12 @@ public class HttpPostUtils extends AbsHttp {
 
         String res;
 
-        try{
+        try {
             conn = buildConnection(url, "POST", headers);
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
             res = readResponse(conn, bodyParams, null);
 
-        }finally{
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }
@@ -71,7 +71,7 @@ public class HttpPostUtils extends AbsHttp {
     /********************************** POST JSON ***************************************************/
 
     /**
-     * @param url 请求地址
+     * @param url  请求地址
      * @param json 请求json数据
      * @return response info
      * @throws Exception e
@@ -81,8 +81,8 @@ public class HttpPostUtils extends AbsHttp {
     }
 
     /**
-     * @param url 请求地址
-     * @param json 请求json数据
+     * @param url     请求地址
+     * @param json    请求json数据
      * @param headers 请求头信息
      * @return response info
      * @throws Exception e
@@ -97,12 +97,12 @@ public class HttpPostUtils extends AbsHttp {
 
         String res;
 
-        try{
+        try {
             conn = buildConnection(url, "POST", headers);
-            conn.setRequestProperty("Content-Type","application/json;charset=utf-8");
+            conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             res = readResponse(conn, json, null);
 
-        }finally{
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }

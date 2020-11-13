@@ -4,25 +4,26 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * @author yinshaobo
  */
 public class HttpUtils extends AbsHttp {
 
-    public static String postBinary(String url, InputStream inputStream) throws Exception {
+    public static String postBinary(String url, Map<String, File> fileMap) throws Exception {
 
         HttpURLConnection conn = null;
 
         String res;
 
-        try{
+        try {
             conn = buildConnection(url, "POST", null);
-            conn.setRequestProperty("Content-Type", "multipart/form-data;");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + BOUNDARY);
 
-            res = readResponse(conn, null, inputStream);
+            res = readResponse(conn, null, fileMap);
 
-        }finally{
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }
@@ -32,6 +33,7 @@ public class HttpUtils extends AbsHttp {
 
     /**
      * 通过get请求得到读取器响应数据的数据流
+     *
      * @param url 请求URL地址
      * @return 获取的文件流
      * @throws Exception Exception
@@ -60,9 +62,10 @@ public class HttpUtils extends AbsHttp {
 
     /**
      * 以GET方式从网络下载文件流并保存为本地文件
-     * @param url 网络URL
+     *
+     * @param url           网络URL
      * @param localFilePath 本地文件路径
-     * @param fileName 文件名
+     * @param fileName      文件名
      * @return File对象
      * @throws Exception Exception
      */

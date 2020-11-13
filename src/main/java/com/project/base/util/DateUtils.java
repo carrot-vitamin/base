@@ -20,8 +20,9 @@ public class DateUtils {
 
     /**
      * 计算两时间间隔
+     *
      * @param startDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 时间间隔，单位：天
      */
     public static long getInterval(Date startDate, Date endDate) {
@@ -36,6 +37,7 @@ public class DateUtils {
 
     /**
      * 判断当天是周几
+     *
      * @param date java.util.Date
      * @return string
      */
@@ -64,6 +66,7 @@ public class DateUtils {
 
     /**
      * 判断当天是周几
+     *
      * @param date yyyy-MM-dd
      * @return string
      */
@@ -78,6 +81,7 @@ public class DateUtils {
 
     /**
      * 判断当天是否为工作日（周一到周五）
+     *
      * @param date date
      * @return boolean
      */
@@ -88,6 +92,7 @@ public class DateUtils {
 
     /**
      * 判断日期是否为周六或周日
+     *
      * @param date date
      * @return boolean
      */
@@ -97,6 +102,7 @@ public class DateUtils {
 
     /**
      * 将指定日期增加指定天数
+     *
      * @param date date
      * @param days days
      * @return Date
@@ -110,8 +116,9 @@ public class DateUtils {
 
     /**
      * 计算两个时间的小时差
+     *
      * @param start 开始时间
-     * @param end 结束时间
+     * @param end   结束时间
      * @return 小时级别的差
      */
     public static long hourDisparity(Date start, Date end) {

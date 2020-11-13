@@ -28,13 +28,13 @@ public class AESUtils {
      * 5.内容加密
      * 6.返回字符串
      *
-     * @param aesKey aesKey
+     * @param aesKey  aesKey
      * @param content content
      * @return string
      */
     public static String encrypt(String aesKey, String content) {
         try {
-            Object [] objects = getCipher(aesKey);
+            Object[] objects = getCipher(aesKey);
             Cipher cipher = (Cipher) objects[0];
             SecretKey key = (SecretKey) objects[1];
             //7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密解密(Decrypt_mode)操作，第二个参数为使用的KEY
@@ -59,13 +59,14 @@ public class AESUtils {
      * 1.同加密1-4步
      * 2.将加密后的字符串反纺成byte[]数组
      * 3.将加密内容解密
-     * @param aesKey aesKey
+     *
+     * @param aesKey  aesKey
      * @param content content
      * @return string
      */
     public static String decrypt(String aesKey, String content) {
         try {
-            Object [] objects = getCipher(aesKey);
+            Object[] objects = getCipher(aesKey);
             Cipher cipher = (Cipher) objects[0];
             SecretKey key = (SecretKey) objects[1];
             //7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密(Decrypt_mode)操作，第二个参数为使用的KEY
@@ -98,7 +99,7 @@ public class AESUtils {
             SecretKey key = new SecretKeySpec(raw, "AES");
             //6.根据指定算法AES自成密码器
             Cipher cipher = Cipher.getInstance("AES");
-            return new Object [] {cipher, key};
+            return new Object[]{cipher, key};
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;

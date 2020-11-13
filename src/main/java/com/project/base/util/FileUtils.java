@@ -54,7 +54,7 @@ public class FileUtils {
     /**
      * 根据key获取properties file value
      *
-     * @param key key
+     * @param key            key
      * @param propertiesName e.g. config/application.properties
      * @return String
      * @throws IOException IO异常
@@ -66,6 +66,7 @@ public class FileUtils {
 
     /**
      * 删除文件（夹）
+     *
      * @param folderPath 要删除的文件夹路径
      * @return 操作结果
      */
@@ -119,9 +120,10 @@ public class FileUtils {
 
     /**
      * 将流转换为本地文件，以时间戳自动命名
-     * @param inputStream 文件流
+     *
+     * @param inputStream   文件流
      * @param localFilePath 要保存的本地路径，如 /Users/file/voice/
-     * @param fileName 文件名
+     * @param fileName      文件名
      * @return File对象
      * @throws IOException IOException
      */
@@ -146,6 +148,7 @@ public class FileUtils {
 
     /**
      * 创建文件，存在则返回
+     *
      * @param filePath 文件路径
      * @return 文件对象
      * @throws IOException IO异常
@@ -165,6 +168,7 @@ public class FileUtils {
 
     /**
      * 根据网络地址解析后缀名
+     *
      * @param url 网络URL地址 e.g. https://www.baidu.com/img/bd_logo1.png
      * @return 解析后的后缀名  bd_logo1.png
      */
@@ -175,6 +179,7 @@ public class FileUtils {
 
     /**
      * 计算文件大小 单位：字节 (kb)
+     *
      * @param base64 base64字符串
      * @return 文件大小 单位：字节 (kb)
      * @throws IOException IO异常
@@ -195,6 +200,7 @@ public class FileUtils {
 
     /**
      * 读取文本内容
+     *
      * @param filePath 文件路径
      * @return 文本内容
      * @throws FileNotFoundException IO异常
@@ -218,7 +224,8 @@ public class FileUtils {
 
     /**
      * 将内容写入指定文件，文件不存在则新建（覆盖原内容）
-     * @param content 要写入的内容
+     *
+     * @param content  要写入的内容
      * @param filePath 要写入的文件路径
      * @return 写入结果
      * @throws Exception IO异常
@@ -229,7 +236,8 @@ public class FileUtils {
 
     /**
      * 将内容写入指定文件，文件不存在则新建（不覆盖原内容）
-     * @param content 要写入的内容
+     *
+     * @param content  要写入的内容
      * @param filePath 要写入的文件路径
      * @return 写入结果
      * @throws Exception IO异常

@@ -24,6 +24,7 @@ public class KeyGenerator {
 
     /**
      * 生成带有时间格式的随机字符串
+     *
      * @return 随机字符串
      */
     public static String randomTimestamp() {
