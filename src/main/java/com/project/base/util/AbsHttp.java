@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * @author za-yinshaobo
- * @date 2020/11/13 14:10
  */
 public abstract class AbsHttp {
 

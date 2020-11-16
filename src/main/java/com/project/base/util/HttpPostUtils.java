@@ -30,7 +30,7 @@ public class HttpPostUtils extends AbsHttp {
 
     /**
      * @param url        请求地址
-     * @param bodyParams 请求body数据 k1=v1&k2=v2... ...
+     * @param bodyParams 请求body数据 k1=v1
      * @return response info
      * @throws Exception e
      */
@@ -40,7 +40,7 @@ public class HttpPostUtils extends AbsHttp {
 
     /**
      * @param url        请求地址
-     * @param bodyParams 请求body数据 k1=v1&k2=v2... ...
+     * @param bodyParams 请求body数据 k1=v1
      * @param headers    请求头信息
      * @return response info
      * @throws Exception e
