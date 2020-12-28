@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class KeyGenerator {
 
-    private static byte[] lock = new byte[0];
+    private static final byte[] LOCK = new byte[0];
 
     /**
      * 位数，默认是8位
@@ -29,7 +29,7 @@ public class KeyGenerator {
      */
     public static String randomTimestamp() {
         long r;
-        synchronized (lock) {
+        synchronized (LOCK) {
             r = (long) ((Math.random() + 1) * W);
         }
         return DateFormatEnum.yyyyMMddHHmmsss.getDateFormat().format(new Date()) + String.valueOf(r).substring(1);
