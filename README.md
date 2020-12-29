@@ -29,4 +29,9 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCQ3Vxu16+T6XXUVv9NJsALKTQkoywGR7bru4M17QCW
 如果idea mvn install时控制台中文乱码或提示 'gpg.exe不是内部或外部命令...' 导致打包失败时按如下进行配置：
 > -Dfile.encoding=GB2312 <br/>
 > gpg.skip=true
-![alt maven打包配置](config.png)
+![alt maven打包配置](config.png) <br/>
+
+
+使用右侧Maven菜单deploy成功：
+* mvn install时提示不是“gpg.exe”不是内部或外部命令时将安装的gpg.exe添加到环境变量，保证在命令行输入 "gpg.exe" 能正常响应，关闭idea，使用管理员打开继续install即可。
+* gpg4win客户端无法将密钥发布到服务器时可手动发布。通过客户端将公钥导出（选中密钥行右键选择导出）并以文本方式打开，复制内容，进入网址 http://keyserver.ubuntu.com:11371/# 点击 SubmitKey 粘贴后提交即可。
