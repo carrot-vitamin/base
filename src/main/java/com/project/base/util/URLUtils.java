@@ -10,7 +10,7 @@ public class URLUtils {
     /**
      * map转url参数
      * @param params map
-     * @return k1=v1&k2=v2...
+     * @return k1=v1
      */
     public static String mapToUrlParams(Map<?, ?> params) {
         if (params == null || params.isEmpty()) {
