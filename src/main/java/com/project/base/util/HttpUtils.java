@@ -32,17 +32,18 @@ public class HttpUtils extends AbsHttp {
     }
 
     /**
-     * 通过get请求得到读取器响应数据的数据流
+     * 请求得到读取器响应数据的数据流
      *
      * @param url 请求URL地址
+     * @param method 请求方法 GET | POST
      * @return 获取的文件流
      * @throws Exception Exception
      */
-    public static InputStream getInputStreamByGet(String url) throws Exception {
+    public static InputStream getInputStream(String url, String method) throws Exception {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         conn.setReadTimeout(5000);
         conn.setConnectTimeout(5000);
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod(method.toUpperCase());
         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return conn.getInputStream();
         }
@@ -70,7 +71,7 @@ public class HttpUtils extends AbsHttp {
      * @throws Exception Exception
      */
     public static File getFileByGet(String url, String localFilePath, String fileName) throws Exception {
-        InputStream inputStream = getInputStreamByGet(url);
+        InputStream inputStream = getInputStream(url, "get");
         return FileUtils.saveFileByInputStream(inputStream, localFilePath, fileName);
     }
 
