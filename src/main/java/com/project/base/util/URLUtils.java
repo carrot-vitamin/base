@@ -8,6 +8,22 @@ import java.util.Map;
 public class URLUtils {
 
     /**
+     * map转url参数
+     * @param params map
+     * @return k1=v1&k2=v2...
+     */
+    public static String mapToUrlParams(Map<?, ?> params) {
+        if (params == null || params.isEmpty()) {
+            return "";
+        }
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<?, ?> entry : params.entrySet()) {
+            builder.append("&").append(entry.getKey()).append("=").append(entry.getValue());
+        }
+        return builder.toString().replaceFirst("&", "");
+    }
+
+    /**
      * URL追加参数
      * @param url url
      * @param params params
@@ -17,12 +33,7 @@ public class URLUtils {
         if (params == null || params.isEmpty()) {
             return url;
         }
-
-        StringBuilder builder = new StringBuilder(url);
-        for (Map.Entry<?, ?> entry : params.entrySet()) {
-            builder.append("&").append(entry.getKey()).append("=").append(entry.getValue());
-        }
-
-        return builder.toString().replaceFirst("&", "?");
+        String paramsUrl = mapToUrlParams(params);
+        return url.contains("?") ? url + "&" + paramsUrl : url + "?" + paramsUrl;
     }
 }
