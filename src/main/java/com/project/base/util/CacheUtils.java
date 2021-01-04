@@ -26,10 +26,22 @@ public class CacheUtils {
      */
     private static String filePath = new File("").getAbsolutePath();
 
+    /**
+     * 重设缓存文件路径
+     * @param path 缓存文件路径
+     */
     public static void resetFilePath(String path) {
         filePath = path;
     }
 
+    /**
+     * 缓存数据
+     * @param key key
+     * @param t v
+     * @param seconds 缓存时间，单位：秒
+     * @param <T> Serializable
+     * @return result
+     */
     public static <T extends Serializable> boolean set(String key, T t, int seconds) {
         boolean result;
         try {
@@ -48,6 +60,12 @@ public class CacheUtils {
         return result;
     }
 
+    /**
+     * 获取缓存
+     * @param key key
+     * @param <T> Object
+     * @return 缓存的Object
+     */
     public static <T extends Serializable> T get(String key) {
         ExpireObject<T> t = new ExpireObject<>();
         try {
@@ -66,6 +84,12 @@ public class CacheUtils {
         return t.getT();
     }
 
+    /**
+     * 设置缓存key失效时间
+     * @param key key
+     * @param seconds 失效时间，单位：秒
+     * @return result
+     */
     public static boolean expire(String key, int seconds) {
         boolean result = false;
         String url = buildFilePath(key);
