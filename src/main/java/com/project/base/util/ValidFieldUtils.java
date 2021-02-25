@@ -1,5 +1,6 @@
 package com.project.base.util;
 
+import com.project.base.model.ValidatorResult;
 import com.project.base.model.annotation.NotBlank;
 import com.project.base.model.annotation.NotEmpty;
 import com.project.base.model.annotation.NotNull;
@@ -7,8 +8,13 @@ import com.project.base.model.annotation.NotNullObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author yinshaobo at 2020/6/24 10:06
@@ -18,48 +24,75 @@ public class ValidFieldUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidFieldUtils.class);
 
-    public static String validObject(Object object) {
-        String message = null;
-        Class<?> objectClass = object.getClass();
+    /**
+     * 校验对象字段
+     * @param object 包含自定义注解的对象
+     * @return 校验结果
+     */
+    public static ValidatorResult validObject(Object object) {
+        ValidatorResult result = new ValidatorResult();
+        try {
+            Class<?> objectClass = object.getClass();
+            Field[] fields = objectClass.getDeclaredFields();
+            //是否类注解了非空
+            boolean notNullObject = objectClass.isAnnotationPresent(NotNullObject.class);
+            for (Field field : fields) {
+                //打开私有访问
+                field.setAccessible(true);
+                //获取属性名
+                String name = field.getName();
+                //获取属性值
+                Object value = field.get(object);
 
-        Field[] fields = objectClass.getDeclaredFields();
+                //注解校验
+                String message = validFieldWithAnnotation(field, value);
 
-        //是否类注解了非空
-        boolean notNullObject = objectClass.isAnnotationPresent(NotNullObject.class);
-
-        for (Field field : fields) {
-            //打开私有访问
-            field.setAccessible(true);
-            //获取属性名
-            String name = field.getName();
-            //获取属性值
-            Object value;
-
-            try {
-                value = field.get(object);
-            } catch (IllegalAccessException e) {
-                LOGGER.error(e.getMessage(), e);
-                message = "数据处理异常！" + e.getMessage();
-                break;
-            }
-
-            //注解校验
-            message = validFieldWithAnnotation(field, value);
-
-            if (StringUtils.isNotBlank(message)) {
-                break;
-            } else {
-                if (notNullObject) {
-                    //需要校验全字段
-                    message = validValue(name, value);
-                    if (message != null) {
-                        break;
+                if (StringUtils.isNotBlank(message)) {
+                    result.setHasError(true);
+                    result.addErrorMessage(message);
+                } else {
+                    if (notNullObject) {
+                        //需要校验全字段
+                        message = validValue(name, value);
+                        if (StringUtils.isNotBlank(message)) {
+                            result.setHasError(true);
+                            result.addErrorMessage(message);
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            LOGGER.error("对象校验异常！", e);
+            result.setHasError(true);
+            result.addErrorMessage(e.getMessage());
         }
+        return result;
+    }
 
-        return message;
+    /**
+     * 使用validation-api工具校验
+     * @param object 待校验对象
+     * @return 校验结果
+     */
+    public static ValidatorResult validObjectWithApi(Object object) {
+        ValidatorResult result = new ValidatorResult();
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Object>> validations = validator.validate(object);
+
+            if (validations != null && !validations.isEmpty()) {
+                result.setHasError(true);
+                for (ConstraintViolation<Object> constraintViolation : validations) {
+                    result.addErrorMessage(constraintViolation.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("对象校验异常！", e);
+            result.setHasError(true);
+            result.addErrorMessage(e.getMessage());
+        }
+        return result;
     }
 
     private static String validValue(String name, Object value) {
