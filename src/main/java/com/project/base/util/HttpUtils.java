@@ -15,6 +15,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
@@ -29,6 +31,8 @@ import java.util.Map;
  * @author yinshaobo
  */
 public class HttpUtils extends AbsHttp {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
 
     private static CloseableHttpClient httpClient;
 
@@ -67,6 +71,21 @@ public class HttpUtils extends AbsHttp {
         throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
     }
 
+    public static String buildURLParams(String url, Map urlParams) {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(url);
+            if (CollectionUtils.isNotEmpty(urlParams)) {
+                for (Object key : urlParams.keySet()) {
+                    uriBuilder.setParameter(key.toString(), urlParams.get(key).toString());
+                }
+            }
+            return uriBuilder.build().toString();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return url;
+        }
+    }
+
     /**
      * GET请求
      * @param url url
@@ -74,32 +93,42 @@ public class HttpUtils extends AbsHttp {
      * @throws Exception e
      */
     public static String get(String url) throws Exception {
-        // 声明 http get 请求
-        HttpGet httpGet = new HttpGet(url);
-        // 装载配置信息
-        httpGet.setConfig(requestConfig);
-        // 发起请求
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        return getResult(response);
+        return get(url, null);
     }
 
     /**
      * GET请求
      * @param url url
-     * @param params 参数
-     * @return str
+     * @param urlParams path参数
+     * @return result
      * @throws Exception e
      */
-    public static String get(String url, Map<String, Object> params) throws Exception {
-        URIBuilder uriBuilder = new URIBuilder(url);
-        if (params != null) {
-            // 遍历map,拼接请求参数
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                uriBuilder.setParameter(entry.getKey(), entry.getValue().toString());
+    public static String get(String url, Map urlParams) throws Exception {
+        return get(url, urlParams, null);
+    }
+
+    /**
+     * GET 请求
+     * @param url url
+     * @param urlParams path参数
+     * @param headers header信息
+     * @return result
+     * @throws Exception e
+     */
+    public static String get(String url, Map urlParams, Map headers) throws Exception {
+        // 声明 http get 请求
+        url = buildURLParams(url, urlParams);
+        HttpGet httpGet = new HttpGet(url);
+        // 装载配置信息
+        httpGet.setConfig(requestConfig);
+        if (CollectionUtils.isNotEmpty(headers)) {
+            for (Object key : headers.keySet()) {
+                httpGet.addHeader(key.toString(), headers.get(key).toString());
             }
         }
-        // 调用不带参数的get请求
-        return get(uriBuilder.build().toString());
+        // 发起请求
+        CloseableHttpResponse response = httpClient.execute(httpGet);
+        return getResult(response);
     }
 
     /**
@@ -115,40 +144,46 @@ public class HttpUtils extends AbsHttp {
     /**
      * POST请求
      * @param url url
-     * @param params 参数
+     * @param bodyParams 参数
      * @return str
      * @throws Exception e
      */
-    public static String post(String url, Map<String, Object> params) throws Exception {
+    public static String post(String url, Map bodyParams) throws Exception {
+        return post(url, bodyParams, null);
+    }
+
+    /**
+     * POST请求
+     * @param url url
+     * @param bodyParams body参数
+     * @param headers header信息
+     * @return result
+     * @throws Exception e
+     */
+    public static String post(String url, Map bodyParams, Map headers) throws Exception {
         // 声明httpPost请求
         HttpPost httpPost = new HttpPost(url);
         // 加入配置信息
         httpPost.setConfig(requestConfig);
         // 判断map是否为空，不为空则进行遍历，封装form表单对象
-        if (params != null) {
+        if (CollectionUtils.isNotEmpty(bodyParams)) {
             List<NameValuePair> list = new ArrayList<>();
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                list.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+            for (Object key : bodyParams.keySet()) {
+                list.add(new BasicNameValuePair(key.toString(), bodyParams.get(key).toString()));
             }
             // 构造from表单对象
             UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(list, "UTF-8");
             // 把表单放到post里
             httpPost.setEntity(urlEncodedFormEntity);
         }
+        if (CollectionUtils.isNotEmpty(headers)) {
+            for (Object key : headers.keySet()) {
+                httpPost.addHeader(key.toString(), headers.get(key).toString());
+            }
+        }
         // 发起请求
         CloseableHttpResponse response = httpClient.execute(httpPost);
         return getResult(response);
-    }
-
-    /**
-     * POST JSON
-     * @param url url
-     * @param params 参数
-     * @return str
-     * @throws Exception e
-     */
-    public static String postJson(String url, Map<String, Object> params) throws Exception {
-        return postJson(url, JSONUtils.toJson(params));
     }
 
     /**
@@ -159,11 +194,28 @@ public class HttpUtils extends AbsHttp {
      * @throws Exception e
      */
     public static String postJson(String url, String json) throws Exception {
+        return postJson(url, json, null);
+    }
+
+    /**
+     * POST JSON
+     * @param url url
+     * @param json json
+     * @param headers header信息
+     * @return result
+     * @throws Exception e
+     */
+    public static String postJson(String url, String json, Map headers) throws Exception {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         StringEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
         entity.setContentType("application/json");
         httpPost.setEntity(entity);
+        if (CollectionUtils.isNotEmpty(headers)) {
+            for (Object key : headers.keySet()) {
+                httpPost.addHeader(key.toString(), headers.get(key).toString());
+            }
+        }
         // 发起请求
         CloseableHttpResponse response = httpClient.execute(httpPost);
         return getResult(response);
