@@ -68,7 +68,7 @@ public class HttpUtils extends AbsHttp {
         if (responseOK(response)) {
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         }
-        throw new Exception(String.valueOf(response.getStatusLine().getStatusCode()));
+        throw new Exception(response.toString());
     }
 
     public static String buildURLParams(String url, Map urlParams) {
