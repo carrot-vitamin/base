@@ -3,7 +3,7 @@ package com.project.base.util;
 import java.util.Map;
 
 /**
- * @author za-yinshaobo at 2020/12/30 18:32
+ * @author yinshaobo at 2020/12/30 18:32
  */
 public class URLUtils {
 

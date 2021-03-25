@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author za-yinshaobo at 2021/1/4 14:52
+ * @author yinshaobo at 2021/1/4 14:52
  * 缓存对象
  */
 public class ExpireObject<T extends Serializable> implements Serializable {

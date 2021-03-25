@@ -3,7 +3,7 @@ package com.project.base.util;
 import java.util.Objects;
 
 /**
- * @author za-yinshaobo
+ * @author yinshaobo
  * 2020/8/27 16:06
  */
 public class Validate {

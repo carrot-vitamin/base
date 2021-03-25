@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Closeable;
 
 /**
- * @author za-yinshaobo
+ * @author yinshaobo
  * 2020/8/27 15:54
  */
 public class IOUtils {

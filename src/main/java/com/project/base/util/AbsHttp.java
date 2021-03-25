@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * @author za-yinshaobo
+ * @author yinshaobo
  */
 public abstract class AbsHttp {
 

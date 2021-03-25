@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * @author za-yinshaobo at 2021/3/4 20:10
+ * @author yinshaobo at 2021/3/4 20:10
  */
 public class CollectionUtils {
 
